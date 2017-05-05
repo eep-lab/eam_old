@@ -30,8 +30,10 @@ uses fUnit1;
 procedure TFormSup.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  If (ssAlt in Shift) and (Key = 115) then
-    FreeAndNil(Sessao);
+  If (Key = 107) then Sessao.NextTent;
+  If (ssAlt in Shift) then begin
+    If (Key = 115) then FreeAndNil(Sessao);
+  end;
 end;
 
 procedure TFormSup.SpeedButton1Click(Sender: TObject);

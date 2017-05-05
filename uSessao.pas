@@ -22,6 +22,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure NextTent;
     procedure Play;
     procedure Reset(CfgSes: TCfgSes);
     property Support: TWinControl read FSupport write FSupport;
@@ -55,13 +56,18 @@ begin
   Inherited Destroy;
 end;
 
+procedure TSessao.NextTent;
+begin
+  FVetBloco[FIndBlc].NextTent;  
+end;
+
 procedure TSessao.Play;
 begin
   FTentativa.Visible:= True;
   If (FCountRptBlc < FCfgSes.VetBlc[FIndBlc].NumMaxExecBlc) then begin
     FVetBloco[FIndBlc].Reset(FCfgSes.VetBlc[FIndBlc], FTentativa);
     FVetBloco[FIndBlc].OnEndBlc:= BlocoEndBlc;
-    FVetBloco[FIndBlc].Play;
+//    FVetBloco[FIndBlc].Play;
   end else EndSessao;
 end;
 

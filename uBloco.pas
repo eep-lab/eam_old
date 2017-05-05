@@ -22,6 +22,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure NextTent;
     procedure Play;
     procedure Reset(Blc: PBlc; Tentativa: TTentativa);
     property OnEndBlc: TEndBlcEvent read FOnEndBlc write FOnEndBlc;
@@ -42,6 +43,11 @@ end;
 destructor TBloco.Destroy;
 begin                                                
   Inherited Destroy;
+end;
+
+procedure TBloco.NextTent;
+begin
+  Play;
 end;
 
 procedure TBloco.Play;
@@ -82,7 +88,7 @@ begin
   FTimer1.Enabled:= False;
   If (FBlc.NumTent-1 > FIndTent) then begin
     Inc(FIndTent);
-    Play;
+//    Play;
   end else begin
     EndBlc;
   end;

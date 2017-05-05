@@ -24,7 +24,6 @@ type
     procedure ChvModMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ChvCmpMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ConseqEndConseq(Sender: TObject);
-    procedure EndTent;
     procedure MostraCompara;
     procedure MostraModelo;
     procedure RodaModelo;
@@ -33,6 +32,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure EndTent;    
     procedure Paint; override;
     procedure PaintWindow(DC: HDC); override;
     procedure Play;
