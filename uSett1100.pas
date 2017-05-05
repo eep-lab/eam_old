@@ -15,8 +15,10 @@ type
     FFrame1: TWinControl;
     FFrame2: TWinControl;
     FIndChvCor: Integer;
+    FLatencia: Integer;
     FMatChv: Array of Array of TChave;
     FTimer1: TTimer;
+    FTimer2: TTimer;
     procedure Chv0Click(Sender: TObject);
     procedure Chv1Click(Sender: TObject);
     procedure EndTent;
@@ -24,6 +26,7 @@ type
     function  SetChv1(Ind:  Integer; AChave: TChave): Boolean;
     function  SetChv2(Ind:  Integer; AChave: TChave): Boolean;
     procedure Timer1Timer(Sender: TObject);
+    procedure Timer2Timer(Sender: TObject);
   protected
     function  GetMatChv(Ind1, Ind2: Integer): TChave; override;
     function  GetMatPar(Ind1, Ind2: Integer): Variant; override;
@@ -51,6 +54,12 @@ begin
     OnTimer:= Timer1Timer;
     Interval:= 100;
   end;
+  FTimer2:= TTimer.Create(Self);
+  With FTimer2 do begin
+    Enabled:= False;
+    OnTimer:= Timer2Timer;
+    Interval:= 100;
+  end;
   FFrame1:= TWinControl.Create(Self);
   With FFrame1 do begin
     Align:= alClient;
@@ -66,7 +75,7 @@ begin
   Width:= 350;
   SetLength(FMatChv, 2);
   SetLength(FMatChv[0], 1);
-  SetLength(FData, 13);
+//  SetLength(FData, 13);
 end;
 
 destructor TSett1100.Destroy;
@@ -80,11 +89,13 @@ begin
   FMatChv[0, 0].Visible:= False;
   For a1:= 0 to High(FMatChv[1]) do
     FMatChv[1, a1].Visible:= True;
+  FTimer2.Enabled:= True;    
 end;
 
 procedure TSett1100.Chv1Click(Sender: TObject);
 var a1: Integer;
 begin
+  FTimer2.Enabled:= False;
   a1:= TChave(Sender).ID;
   FData[1]:= FMatChv[0, 0].LabelChv;
   FData[2]:= FMatChv[1, FIndChvCor].LabelChv;
@@ -112,6 +123,7 @@ begin
     FData[10]:= 'Errada';
     FData[12]:= 'Não Liberado';
   end;
+  FData[13]:= IntToStr(FLatencia);
   Visible:= False;
   FTimer1.Enabled:= True;
 end;
@@ -172,6 +184,11 @@ begin
     out dx, al
   end;
   EndTent;
+end;
+
+procedure TSett1100.Timer2Timer(Sender: TObject);
+begin
+  Inc(FLatencia, 100);
 end;
 
 function TSett1100.GetMatChv(Ind1, Ind2: Integer): TChave;
@@ -255,6 +272,7 @@ begin
   end;
   FMatChv[0, 0].Visible:= True;
   FFrame1.Visible:= True;
+  FLatencia:= 0;
 end;
 
 procedure TSett1100.Reset;
@@ -263,7 +281,7 @@ begin
   FFrame2.Cursor:= Cursor;
   FIndChvCor:= -1;
   SetLength(FData, 0);
-  SetLength(FData, 13);  
+  SetLength(FData, 14);  
 end;
 
 end.

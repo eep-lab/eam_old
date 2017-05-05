@@ -51,11 +51,12 @@ type
   end;
 
 const
-  DataLabels: Array [0..14] of String = ('Número da Tentativa',
+  DataLabels: Array [0..15] of String = ('Número da Tentativa',
     'Posição do Modelo', 'Posição Correta', 'Posição da Resposta',
     'Nome do Modelo', 'Nome Correto', 'Nome da Resposta',
     'Arquivo do Modelo', 'Arquivo Correto', 'Arquivo da Resposta',
     'Resposta Correta/Errada', 'Reforço Programado', 'Reforço Liberado',
+    'Latência',
     'Sujeito: ', 'Sessão: ');
   Mensagem1: String = 'Não foi possível salvar os dados. '+
     'Possivelmente o arquivo de dados esteja sendo utilizado '+
@@ -215,20 +216,20 @@ begin
     AssignFile(Arq, FOutputFile);
     Try
       Rewrite(Arq);
-      For a1:= 0 to 12 do begin
+      For a1:= 0 to 13 do begin
         Write(Arq, DataLabels[a1]);
         Write(Arq, #9);
       end;
-      Write(Arq, DataLabels[13]+FSubjectsName);
+      Write(Arq, DataLabels[14]+FSubjectsName);
       Write(Arq, #9);
-      WriteLn(Arq, DataLabels[14]+FSessionName);
+      WriteLn(Arq, DataLabels[15]+FSessionName);
 
       For a1:= 0 to FNumData-1 do begin
-        For a2:= 0 to 11 do begin
+        For a2:= 0 to 12 do begin
           Write(Arq, FVetData[a1, a2]);
           Write(Arq, #9);
         end;
-        WriteLn(Arq, FVetData[a1, 12]);
+        WriteLn(Arq, FVetData[a1, 13]);
       end;
     Except
       If MessageDlg(Mensagem1, mtError, [mbOK, mbCancel], 0) = 1 then begin

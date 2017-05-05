@@ -15,13 +15,16 @@ type
     FFrame1: TWinControl;
     FFrame2: TWinControl;
     FIndChvCor: Integer;
+    FLatencia: Integer;
     FMatChv: Array of Array of TChave;
     FTimer1: TTimer;
+    FTimer2: TTimer;
     procedure Chv1Click(Sender: TObject);
     procedure EndTent;
     function  SetChv1(Ind:  Integer; AChave: TChave): Boolean;
     function  SetChv2(Ind:  Integer; AChave: TChave): Boolean;
     procedure Timer1Timer(Sender: TObject);
+    procedure Timer2Timer(Sender: TObject);
   protected
     function  GetMatChv(Ind1, Ind2: Integer): TChave; override;
     function  GetMatPar(Ind1, Ind2: Integer): Variant; override;
@@ -49,6 +52,12 @@ begin
     OnTimer:= Timer1Timer;
     Interval:= 100;
   end;
+  FTimer2:= TTimer.Create(Self);
+  With FTimer2 do begin
+    Enabled:= False;
+    OnTimer:= Timer2Timer;
+    Interval:= 100;
+  end;
   FFrame1:= TWinControl.Create(Self);
   With FFrame1 do begin
     Align:= alClient;
@@ -63,7 +72,7 @@ begin
   Height:= 150;
   Width:= 350;
   SetLength(FMatChv, 2);
-  SetLength(FData, 13);
+//  SetLength(FData, 14);
 end;
 
 destructor TSett1200.Destroy;
@@ -74,6 +83,7 @@ end;
 procedure TSett1200.Chv1Click(Sender: TObject);
 var a1: Integer;
 begin
+  FTimer2.Enabled:= False;
   a1:= TChave(Sender).ID;
   FData[2]:= FMatChv[1, FIndChvCor].LabelChv;
   FData[3]:= FMatChv[1, a1].LabelChv;
@@ -98,6 +108,7 @@ begin
     FData[10]:= 'Errada';
     FData[12]:= 'Não Liberado';
   end;
+  FData[13]:= IntToStr(FLatencia);
 //  Visible:= False;
   FTimer1.Enabled:= True;
 end;
@@ -146,6 +157,11 @@ begin
     out dx, al
   end;
   EndTent;
+end;
+
+procedure TSett1200.Timer2Timer(Sender: TObject);
+begin
+  Inc(FLatencia, 100);
 end;
 
 function TSett1200.GetMatChv(Ind1, Ind2: Integer): TChave;
@@ -223,6 +239,8 @@ begin
   end;
   If CanFocus then SetFocus;
   FFrame1.Visible:= True;
+  FLatencia:= 0;
+  FTimer2.Enabled:= True;
 end;
 
 procedure TSett1200.Reset;
@@ -231,7 +249,7 @@ begin
   FFrame2.Cursor:= Cursor;
   FIndChvCor:= -1;
   SetLength(FData, 0);
-  SetLength(FData, 13);
+  SetLength(FData, 14);
 end;
 
 end.

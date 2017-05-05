@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 192
   Top = 107
   AutoScroll = False
-  Caption = 'Galileu (versão Beta 1.2)'
+  Caption = 'Galileu (versão Beta 1.3)'
   ClientHeight = 347
   ClientWidth = 584
   Color = clBtnFace
