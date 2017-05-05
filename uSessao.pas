@@ -3,7 +3,7 @@ unit uSessao;
 interface
 
 uses Windows, classes, controls, Sysutils, Graphics, Forms,
-     uCfgSes, uAbsTent, uChave, uSett1100, uSett1200, extctrls, FileCtrl,
+     uCfgSes, uAbsTent, uChave, uSett1100, uSett1200, extctrls, 
      Dialogs;
 
 type
@@ -253,4 +253,5 @@ begin
 end;
 
 end.
+
 

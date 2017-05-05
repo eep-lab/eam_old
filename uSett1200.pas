@@ -97,11 +97,13 @@ begin
     FData[10]:= 'Correta';
     If FDoParalellReinf then begin
       FData[12]:= 'Liberado';
+{
       asm
         mov dx, $378
         mov al, 255
         out dx, al
       end;
+}
     end else FData[12]:= 'Não Liberado';
     If FEfeitoSonoro then Beep;
   end else begin
@@ -151,11 +153,13 @@ end;
 procedure TSett1200.Timer1Timer(Sender: TObject);
 begin
   FTimer1.Enabled:= False;
+{
   asm
     mov dx, $378
     mov al, 0
     out dx, al
   end;
+}
   EndTent;
 end;
 
@@ -232,11 +236,13 @@ end;
 
 procedure TSett1200.Play;
 begin
+{
   asm
     mov dx, $378
     mov al, 0
     out dx, al
   end;
+}  
   If CanFocus then SetFocus;
   FFrame1.Visible:= True;
   FLatencia:= 0;

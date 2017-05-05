@@ -51,7 +51,7 @@ var
   Sessao: TSessao;
 
 const
-  Titulo: String = 'EAM (versão Beta 1.3)';
+  Titulo: String = 'EAM (versão Beta 1.4)';
 
 implementation
 
@@ -68,12 +68,13 @@ begin
   CurPath:= GetCurrentDir;
   CfgSes:= TCfgSes.Create(Self);
   Sessao:= TSessao.Create(Self);
+
   With Sessao do begin
     OnEndSess:= EndSessao;
     SourcePath:= CurPath+'\Files\';
   end;
   FormSup:= TFormSup.Create(Self);
-
+dsads
   Caption:= Titulo;
   OpenDialog1.InitialDir:= CurPath;
   SaveDialog1.InitialDir:= CurPath;

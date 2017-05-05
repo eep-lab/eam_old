@@ -67,4 +67,6 @@ __recovery/
 # other
 *.bmp
 *.txt
+*.TXT
 *.xls
+*.XLS

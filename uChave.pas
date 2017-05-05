@@ -52,7 +52,7 @@ type
     function  LoadImage(Path: String): Boolean;
     function  LoadText(Path: String): Boolean;
     procedure PaintText;
-    procedure SetAutoSize(Value: Boolean);
+    procedure SetAutoSize(Value: Boolean); reintroduce;
     procedure SetAlignment(Value: TplAlignment);
     procedure SetBorderColor(AColor: TColor);
     procedure SetFileName(Path: String);
