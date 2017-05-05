@@ -5,8 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   Menus, ComCtrls, Buttons, StdCtrls, MPlayer, ExtCtrls, ToolWin, inifiles,
-  ImgList, uUserList, uSubjList, uProcList, uCfgSList, uLog,
-  uCfgSes, uSess;
+  ImgList, fUnit2, fAbout, uCfgSes, uSess;
 
 type
   TForm1 = class(TForm)
@@ -20,102 +19,116 @@ type
     ToolButton1: TToolButton;
     Sair1: TMenuItem;
     ImageList1: TImageList;
-    ToolButton4: TToolButton;
-    ToolButton6: TToolButton;
     N1: TMenuItem;
-    N3: TMenuItem;
     RodarSesso1: TMenuItem;
     Ajuda1: TMenuItem;
     SobreoGalileu1: TMenuItem;
     Image1: TImage;
-    PortaParalela1: TMenuItem;
-    N2: TMenuItem;
     N4: TMenuItem;
-    Logout1: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    ToolButton2: TToolButton;
+    SaveDialog1: TSaveDialog;
     procedure FormCreate(Sender: TObject);
+    procedure SobreoGalileu1Click(Sender: TObject);
+    procedure Abrir1Click(Sender: TObject);
     procedure RodarSesso1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
-    procedure ToolButton1Click(Sender: TObject);
-    procedure Logout1Click(Sender: TObject);
   private
     { Private declarations }
+    procedure SessEndSess(Sender: TObject);
   public
-    FCanParalel: Boolean;
+    FCfgSes: TCfgSes;
+    FSess: TSess;
+    procedure ApplicationException(Sender: TObject; E: Exception);    
     { Public declarations }
   end;
 
 const
-  Titulo: String = 'EAM 4.0';
+  Titulo: String = 'EAM 4.0.03';
 
 var
   Form1: TForm1;
-
   CurPath: String;
 
-  UserList: TUserList;
-  SubjList: TSubjList;
-  ProcList: TProcList;
-  CfgSList: TCfgSList;
-
-  Log: TLog;
-
-  CfgSes: TCfgSes;
-  Sess: TSess;
 
 implementation
 
-uses fSuport, fStartSes, fLogin;
+uses fUnit3;
 
 {$R *.DFM}
+
+procedure TForm1.ApplicationException(Sender: TObject; E: Exception);
+begin
+
+end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   CurPath:= GetCurrentDir;
 
-  UserList:= TUserList.Create(CurPath+'\Files Settings\UserList.txt');
-  SubjList:= TSubjList.Create(CurPath+'\Files Settings\SubjList.txt');
-  ProcList:= TProcList.Create(CurPath+'\Files Settings\ProcList.txt');
-  CfgSList:= TCfgSList.Create(CurPath+'\Files Settings\CfgSList.txt');
-
-  Log:= TLog.Create(Self, CurPath+'\Files Settings\UserList.txt');
-
   Caption:= Titulo;
-  Height:= 469;
-  Width:= 650;
+  RodarSesso1.Enabled:= False;
+  ToolButton1.Enabled:= False;
+
+  OpenDialog1.InitialDir:= CurPath;
+  SaveDialog1.InitialDir:= CurPath;
+
+  Form2:= TForm2.Create(Application);
+
+  FCfgSes:= TCfgSes.Create(Application);
+
+  FSess:= TSess.Create(Application);
+  With FSess do begin
+    Support:= Form2;
+    OnEndSess:= SessEndSess;
+  end;
+end;
+
+procedure TForm1.SobreoGalileu1Click(Sender: TObject);
+begin
+  FmAbout:= TFmAbout.Create(Self);
+  FmAbout.ShowModal;
+  FmAbout.Free;
+end;
+
+procedure TForm1.Abrir1Click(Sender: TObject);
+begin
+  If OpenDialog1.Execute then begin
+    If FCfgSes.LoadFromFile(OpenDialog1.FileName{CurPath+'\Files Settings\Sessão.txt'}) then begin
+      Caption:= Titulo + ' - ' + FCfgSes.Name;
+      RodarSesso1.Enabled:= True;
+    end else begin
+      Caption:= Titulo;
+      RodarSesso1.Enabled:= False;
+    end;
+    ToolButton1.Enabled:= RodarSesso1.Enabled;
+  end;
 end;
 
 procedure TForm1.RodarSesso1Click(Sender: TObject);
 begin
-  ToolButton1Click(nil);
+  Form2.Show;
+  Form3:= TForm3.Create(Self);
+  If Form3.ShowModal = mrOK then begin
+    FSess.TestMode:= Form3.CheckBox1.Checked;
+    FSess.SubjName:= Form3.Edit1.Text;
+    FSess.SessName:= Form3.Edit2.Text;
+    Form2.SpeedButton1.Visible:= True;
+  end else begin
+    Form2.SpeedButton1.Visible:= False;
+    Form2.Close;
+  end;
+  Form3.Free;
 end;
 
 procedure TForm1.Sair1Click(Sender: TObject);
 begin
-  Application.Terminate;
+  Close;
 end;
 
-procedure TForm1.ToolButton1Click(Sender: TObject);
+procedure TForm1.SessEndSess(Sender: TObject);
 begin
-//  FmStartSes:= TFmStartSes.Create(Self);
-//  FmStartSes.ShowModal;
-
-  FmSup:= TFmSup.Create(Self);
-  FmSup.Show;
-
-  CfgSes:= TCfgSes.Create(CurPath+'\Files Settings\CfgSes desenvolvimento.txt');
-
-  Sess:= TSess.Create(Self, CfgSes);
-
-  Sess.Play;
-
-end;
-
-procedure TForm1.Logout1Click(Sender: TObject);
-begin
-  Log.Logout;
-  Enabled:= False;
-  FmLogin:= TFmLogin.Create(Self);
-  FmLogin.ShowModal;
+  Form2.Close;
 end;
 
 end.

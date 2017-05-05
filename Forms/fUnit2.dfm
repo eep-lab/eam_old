@@ -1,10 +1,10 @@
-object FmSup: TFmSup
-  Left = 123
-  Top = 101
+object Form2: TForm2
+  Left = 198
+  Top = 173
   BorderStyle = bsNone
-  Caption = 'FmSup'
-  ClientHeight = 457
-  ClientWidth = 696
+  Caption = 'Form2'
+  ClientHeight = 384
+  ClientWidth = 542
   Color = clBlack
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,13 +14,14 @@ object FmSup: TFmSup
   OldCreateOrder = False
   WindowState = wsMaximized
   OnKeyDown = FormKeyDown
+  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object SpeedButton1: TSpeedButton
-    Left = 400
-    Top = 248
-    Width = 240
-    Height = 180
+    Left = 144
+    Top = 96
+    Width = 249
+    Height = 185
     Glyph.Data = {
       76FA0100424D76FA0100000000003600000028000000F0000000B40000000100
       18000000000040FA010000000000000000000000000000000000FFFFFFFFFFFF
@@ -4074,6 +4075,7 @@ object FmSup: TFmSup
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+    Visible = False
     OnClick = SpeedButton1Click
   end
 end

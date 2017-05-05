@@ -2,33 +2,82 @@ unit uSess;
 
 interface
 
-uses Classes, 
-     uCfgSes, uBlc, uSeq, uCsq;
+uses Classes, Controls, SysUtils,
+     uCfgSes, uRegData, uBlc;
 
 type
   TSess = class(TComponent)
   private
-    FCfgSes: TCfgSes;
+    FRegData: TRegData;
     FBlc: TBlc;
-    FSeq: TSeq;
+    FCfgSes: TCfgSes;
+    FIndBlc: Integer;
+    FIndTent: Integer;
     FOnEndSess: TNotifyEvent;
+    FSubjName: String;
+    FSessName: String;
+    FSupport: TWinControl;
+    FTestMode: Boolean;
     procedure BlcEndBlc(Sender: TObject);
+    procedure EndSess;
+    procedure SetSupport(Support: TWinControl);
   public
-    constructor Create(AOwner: TComponent; CfgSes: TCfgSes); reintroduce;
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure Play;
+    procedure Play(CfgSes: TCfgSes; FileData: String);
+    procedure PlayBlc;
     property OnEndSess: TNotifyEvent read FOnEndSess write FOnEndSess;
+    property Support: TWinControl read FSupport write SetSupport;
+    property SessName: String write FSessName;
+    property SubjName: String write FSubjName;
+    property TestMode: Boolean write FTestMode;
   end;
 
 implementation
 
-constructor TSess.Create(AOwner: TComponent; CfgSes: TCfgSes);
+procedure TSess.BlcEndBlc(Sender: TObject);
+var a1: Integer; s1, s2: String;
+begin
+  If FBlc.NextBlc = 'end' then a1:= FCfgSes.NumBlc
+  else begin
+    s1:= FBlc.NextBlc;
+    s2:= Copy(s1, 0, Pos(#32, s1)-1);
+    a1:= StrToIntDef(s2, 0)-1;
+    Delete(s1, 1, pos(' ', s1)); If Length(s1)>0 then While s1[1]=' ' do Delete(s1, 1, 1);
+    FIndTent:= StrToIntDef(s1, 1)-1;
+  end;
+
+  If a1 > -1 then FIndBlc:= a1
+  else begin
+    Inc(FIndBlc);
+    FIndTent:= 0;
+  end;
+  
+  PlayBlc;
+end;
+
+procedure TSess.EndSess;
+begin
+  FRegData.SaveData('Hora de Término: '+ TimeToStr(Time) + #13#10);
+
+  FRegData.Free;
+  
+  If Assigned(OnEndSess) then FOnEndSess(Self);
+end;
+
+procedure TSess.SetSupport(Support: TWinControl);
+begin
+  FSupport:= Support;
+end;
+
+constructor TSess.Create(AOwner: TComponent);
 begin
   Inherited Create(AOwner);
-  FCfgSes:= CfgSes;
-  FSeq:= TSeq.Create(Self, CfgSes);
-  FBlc:= TBlc.Create(Self, CfgSes, FSeq);
-  FBlc.OnEndBlc:= BlcEndBlc;
+
+  FBlc:= TBlc.Create(Self);
+  With FBlc do begin
+    OnEndBlc:= BlcEndBlc;
+  end;
 end;
 
 destructor TSess.Destroy;
@@ -36,14 +85,32 @@ begin
   Inherited Destroy;
 end;
 
-procedure TSess.Play;
+procedure TSess.Play(CfgSes: TCfgSes; FileData: String);
 begin
-  FBlc.Play(0, 0);
+  FCfgSes:= CfgSes;
+
+  FRegData:= TRegData.Create(Self, FileData);
+
+  FBlc.RegData:= FRegData;
+  FBlc.Support:= FSupport;
+
+  FRegData.SaveData('Sujeito: ' + FSubjName + #13#10);
+  If FTestMode then FSessName:= FSessName + ' (Modo de Teste)';
+  FRegData.SaveData('Sessão: ' + FSessName +  #13#10);
+  FRegData.SaveData('Data: '+ DateTimeToStr(Date)+ #13#10);
+  FRegData.SaveData('Hora de Início: '+ TimeToStr(Time)+ #13#10 + #13#10);
+
+  FIndBlc:= 0;
+  FIndTent:= 0;
+  PlayBlc;
 end;
 
-procedure TSess.BlcEndBlc(Sender: TObject);
+procedure TSess.PlayBlc;
 begin
-
+  If FIndBlc < FCfgSes.NumBlc then FBlc.Play(FCfgSes.CfgBlc[FIndBlc], FIndTent, FTestMode)
+  else EndSess;
 end;
 
 end.
+
+

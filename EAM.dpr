@@ -1,40 +1,35 @@
-program EAM;
+program EAM40b;
 
 uses
-  Forms,
-  Windows,
+  Forms, SysUtils,
   fUnit1 in 'Forms\fUnit1.pas' {Form1},
-  fCadUser in 'Forms\fCadUser.pas' {FmCadUser},
-  fCadSubj in 'Forms\fCadSubj.pas' {FmCadSubj},
-  fCadProc in 'Forms\fCadProc.pas' {FMCadProc},
-  uCfgSList in 'Units\uCfgSList.pas',
-  uProcList in 'Units\uProcList.pas',
-  uSubjList in 'Units\uSubjList.pas',
-  uUserList in 'Units\uUserList.pas',
-  uLog in 'Units\uLog.pas',
-  fLogin in 'Forms\fLogin.pas' {FmLogin},
-  fStartSes in 'Forms\fStartSes.pas' {FmStartSes},
-  fSuport in 'Forms\fSuport.pas' {FmSup},
+  fUnit2 in 'Forms\fUnit2.pas' {Form2},
+  fSplash in 'Forms\fSplash.pas' {FmSplash},
+  fAbout in 'Forms\fAbout.pas' {FmAbout},
   uCfgSes in 'Units\uCfgSes.pas',
   uSess in 'Units\uSess.pas',
-  uBlc in 'Units\uBlc.pas',
-  uAbsTent in 'Units\uAbsTent.pas',
-  uSeq in 'Units\uSeq.pas',
-  uCsq in 'Units\uCsq.pas',
-  uTent in 'Units\uTent.pas',
-  uTentMaker in 'Units\uTentMaker.pas',
-  uChave in 'Units\uChave.pas',
-  uObjIns in 'Units\uObjIns.pas',
-  uStmGrid in 'Units\uStmGrid.pas';
+  uTrial in 'Units\uTrial.pas',
+  uKey in 'Units\uKey.pas',
+  uRegData in 'Units\uRegData.pas',
+  uTrialMTSSuc in 'Units\uTrialMTSSuc.pas',
+  fUnit3 in 'Forms\fUnit3.pas' {Form3},
+  uTrialNat in 'Units\uTrialNat.pas',
+  uTrialMar in 'Units\uTrialMar.pas',
+  uTrialNat2 in 'Units\uTrialNat2.pas',
+  uBlc in 'Units\uBlc.pas';
 
 {$R *.res}
 
 begin
+  FmSplash:= TFmSplash.Create(Application);
+  FmSplash.TimerSplash.Interval:= 1000;
+  FmSplash.ShowModal;
+  FmSplash.TimerSplash.Interval:= 2000;
+  FmSplash.Show;
+
   Application.Initialize;
+  Application.Title := 'EAM 4.0';
   Application.CreateForm(TForm1, Form1);
-  Application.CreateForm(TFmLogin, FmLogin);
-  FmLogin.ShowModal;
-  Screen.Cursors[1]:= LoadCursor(HInstance, 'EAM1');
-  Screen.Cursors[2]:= LoadCursor(HInstance, 'EAM2');
+  Application.OnException:= Form1.ApplicationException;
   Application.Run;
 end.

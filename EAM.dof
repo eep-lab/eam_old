@@ -10,7 +10,7 @@ F=0
 G=1
 H=1
 I=1
-J=1
+J=0
 K=0
 L=1
 M=0
@@ -46,7 +46,7 @@ UnitOutputDir=
 PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=
-Packages=VCL50;VCLX50;VCLSMP50;VCLDB50;VCLADO50;ibevnt50;VCLBDE50;VCLDBX50;QRPT50;TEEUI50;TEEDB50;TEE50;DSS50;TEEQR50;VCLIB50;VCLMID50;VCLIE50;INETDB50;INET50;NMFAST50;WEBMID50;dclocx50;dclaxserver50
+Packages=vcl;rtl;dbrtl;adortl;vcldb;vclx;bdertl;vcldbx;ibxpress;dsnap;cds;bdecds;qrpt;teeui;teedb;tee;dss;teeqr;visualclx;visualdbclx;dsnapcrba;dsnapcon;VclSmp;vclshlctrls;vclie;xmlrtl;inet;inetdbbde;inetdbxpress;inetdb;nmfast;webdsnap;websnap;dbexpress;dbxcds;indy;dclOffice2k
 Conditionals=
 DebugSourceDirs=
 UsePackages=0
@@ -58,7 +58,7 @@ UseLauncher=0
 DebugCWD=
 [Language]
 ActiveLang=
-ProjectLang=$00000416
+ProjectLang=
 RootDir=
 [Version Info]
 IncludeVerInfo=0
@@ -85,8 +85,3 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
-[Excluded Packages]
-c:\arquivos de programas\borland\delphi6\Bin\dclnet60.bpl=Borland Internet Components
-c:\arquivos de programas\borland\delphi6\Bin\dclwbm60.bpl=Borland InternetExpress Components
-c:\arquivos de programas\borland\delphi6\Bin\dclwebsnap60.bpl=Borland WebSnap Components
-c:\arquivos de programas\borland\delphi6\Bin\dclsoap60.bpl=Borland Soap Components

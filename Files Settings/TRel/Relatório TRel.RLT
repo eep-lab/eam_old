@@ -1,0 +1,79 @@
+********************     Relatorio de Geral de Sessao     ********************
+Treino de Relacoes V2.1                         Data: 17/02/2005 
+Sujeito: ME2					No. da Sessao: 146
+Tipo de Resposta: T				Hora de Inicio: 10:01:13
+Tentativas Requeridas: 54			Tentativas Processadas: 54
+Intervalo Entre Tentativas (IET): 6.0 seg.	Correcao: Nao
+Duracao da Sessao: 25.0 min.			Consequencia de Erro: 0
+Arquivo de Controle: TSAI6.CON    		Portas: Ativadas
+Arquivo de Estimulo: IDXXXACI.STM 		Ordem do Painel: 3
+Contador: Nao  Visivel: Sim  Valor Inicial: 000  Incr: 000(UP)  Decr: 000(UP)
+Cor de Fundo Durante os IET: PR
+
+Tent    R.E.T Codigo Modelo Comparacoes/Fundo    Corrt Retd Resp  LtMod LtComp
+-------------------------------------------------------------------------------
+1/1       0   CRA     2CI   3CI,7XA,8XX/PR          3   0.0   3     0.9    0.5
+2/2       1   CRA     6XX   6XA,8XX,9CI/PR          8   0.0   8     0.5    0.5
+3/3       0   CRA     8XA   3CI,6XA,9XX/PR          6   0.0   6     0.7    1.1
+4/4       0   CRA     4XX   2XX,6CI,7XA/PR          2   0.0   2     3.3    7.0
+5/5       0   CRA     7CI   5XA,6XX,1CI/PR          1   0.0   1     0.6    0.5
+6/6       0   CRA     3XA   2CI,5XX,4XA/PR          4   0.0   4     0.5    0.9
+7/7       0   CRA     5CI   2XX,7CI,9XA/PR          7   0.0   7     1.2    0.9
+8/8       1   CRA     1XA   3XX,5XA,7CI/PR          5   0.0   5     0.9    0.6
+9/9       0   CRA     9XX   9XX,8XA,1CI/PR          9   0.0   9     0.6    0.8
+10/10     0   CRA     5XX   4CI,6XA,7XX/PR          7   0.0   7     1.5    0.7
+11/11     0   CRA     7XA   2XA,3XX,9CI/PR          2   0.0   2     1.4    0.5
+12/12     0   CRA     8CI   2XX,6CI,9XA/PR          6   0.0   6     1.2    0.7
+13/13     0   CRA     6XA   3XX,7CI,1XA/PR          1   0.0   1     1.0    0.5
+14/14     0   CRA     1CI   3CI,6XA,8XX/PR          3   0.0   3     0.5    0.5
+15/15     0   CRA     3XX   2XA,4XX,7CI/PR          4   0.0   4     0.7    0.5
+16/16     0   CRA     4CI   4XA,5CI,6XX/PR          5   0.0   5     3.1    2.9
+17/17     0   CRA     9XA   3CI,7XX,8XA/PR          8   0.0   8     3.3    2.0
+18/18     0   CRA     2XX   2XA,3CI,9XX/PR          9   0.0   9     0.7    0.6
+19/19     0   CRA     4XA   3XX,4CI,7XA/PR          7   0.0   7     0.6    1.1
+20/20     1   CRA     1XX   5XA,9CI,1XX/PR          1   0.0   1     0.6    0.5
+21/21     0   CRA     8CI   4CI,9XA,1XX/PR          4   0.0   4     1.7    0.6
+22/22     0   CRA     7XX   2XX,5XA,8CI/PR          2   0.0   2     1.4    0.5
+23/23     0   CRA     3CI   3XX,8XA,5CI/PR          5   0.0   5     1.1    1.1
+24/24     0   CRA     2XA   6XA,7XX,1CI/PR          6   0.0   6     1.0    1.0
+25/25     0   CRA     9XX   4CI,5XA,9XX/PR          9   0.0   9     1.8    1.1
+26/26     0   CRA     5XA   2CI,3XX,8XA/PR          8   0.0   8     0.5    0.3
+27/27     0   CRA     6CI   3CI,4XA,7XX/PR          3   0.0   3     0.6    0.5
+28/28     0   CRA     1CI   3XA,5XX,8CI/PR          8   0.0   8     0.7    0.9
+29/29     0   CRA     6XX   3XX,4CI,1XA/PR          3   0.0   3     0.4    0.3
+30/30     0   CRA     3XA   2XX,4CI,1XA/PR          1   0.0   1     1.7    0.5
+31/31     1   CRA     8XA   5XA,8CI,9XX/PR          5   0.0   5     0.8    0.5
+32/32     0   CRA     4CI   3XX,4CI,8XA/PR          4   0.0   4     2.7    2.0
+33/33     0   CRA     2XX   3XA,5CI,7XX/PR          7   0.0   7     0.5    0.8
+34/34     0   CRA     5CI   6CI,7XA,1XX/PR          6   0.0   6     0.6    0.7
+35/35     0   CRA     7XA   3XX,5CI,9XA/PR          9   0.0   9     1.4    0.8
+36/36     0   CRA     9XX   6XA,4CI,2XX/PR          2   0.0   2     0.5    0.4
+37/37     0   CRA     9XA   5XA,8CI,1XX/PR          5   0.0   5     0.6    4.3
+38/38     0   CRA     4XX   4XA,8XX,9CI/PR          8   0.0   8     1.2    0.7
+39/39     0   CRA     6CI   2XX,4CI,1XA/PR          4   0.0   4     0.5    0.9
+40/40     0   CRA     1XX   9CI,2XX,5XA/PR          2   0.0   2     0.7    0.5
+41/41     1   CRA     5XA   3XA,6XX,8CI/PR          3   0.0   3     0.5    0.3
+42/42     0   CRA     2CI   4XA,9CI,6XX/PR          9   0.0   9     0.5    0.8
+43/43     0   CRA     8XA   6XA,7CI,8XX/PR          6   0.0   6     0.5    0.5
+44/44     0   CRA     3CI   5XA,7CI,2XX/PR          7   0.0   7     0.4    0.8
+45/45     0   CRA     7XX   3XA,5CI,1XX/PR          1   0.0   1     0.6    0.5
+46/46     0   CRA     8XX   2CI,4XX,8XA/PR          4   0.0   4     0.6    0.5
+47/47     0   CRA     6XA   4CI,8XA,3XX/PR          8   0.0   8     0.5    1.1
+48/48     0   CRA     2CI   4XX,5XA,1CI/PR          1   0.0   1     0.7    0.5
+
+
+Tent    R.E.T Codigo Modelo Comparacoes/Fundo   Corrt Retd Resp  LtMod LtComp
+-------------------------------------------------------------------------------
+49/49     0   CRA     7CI   3CI,6XA,1XX/PR          3   0.0   3     1.1    0.7
+50/50     1   CRA     3XX   2CI,5XX,6XA/PR          5   0.0   5     0.5    0.6
+51/51     0   CRA     1XA   2XA,7CI,9XX/PR          2   0.0   2     0.5    0.5
+52/52     0   CRA     5XX   2CI,9XX,3XA/PR          9   0.0   9     0.6    0.3
+53/53     0   CRA     9CI   6CI,2XX,1XA/PR          6   0.0   6     0.6    0.9
+54/54     0   CRA     4XA   7XA,8CI,1XX/PR          7   0.0   7     0.4    1.1
+
+
+Linhas de Base Corretas/Total de Linhas de Base: 54/54 
+Testes Corretos/Total de Testes: 0/0 
+Valor Final do Contador: 000
+Razao do Termino: NORMAL. 
+Hora do Termino: 10:11:24
