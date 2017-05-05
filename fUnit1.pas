@@ -59,7 +59,7 @@ type
   end;
 
 const
-  Titulo: String = 'EAM 3.0.03';
+  Titulo: String = 'EAM 3.0.04';
 
 var
   Form1: TForm1;
@@ -188,7 +188,7 @@ begin
   If FCanParalel then s1:= 'ativado.' else s1:= 'desativado.';
   ShowMessage('O controle da Porta Paralela está '+s1+#13#10+
               'O controle da Porta Paralela é automaticamente desativado quando rodando sobre a plataforma '+
-              'NT (Windows 2000, XP e 2003). Para utilizar o controle da Porta Paralela com o EAM 3.1 é preciso '+
+              'NT (Windows 2000, XP e 2003). Para utilizar o controle da Porta Paralela com o EAM 3.x é preciso '+
               'usar uma versão anterior do Windows.');
 end;
 

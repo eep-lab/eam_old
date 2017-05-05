@@ -6,7 +6,7 @@ uses Controls, Graphics, Classes, SysUtils, Jpeg, MPlayer, Forms;
 
 type
   TKind = (stmNone, stmImage, stmSound);
-
+                                                      
   TChave = class(TGraphicControl)
   private
     FBitMap: TBitMap;

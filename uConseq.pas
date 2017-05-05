@@ -17,8 +17,7 @@ type
     FTimerParalel: TTimer;
     FVetChvCsqCor: Array [0..1] of TChave;
     FVetChvCsqInc: Array [0..1] of TChave;
-    FParalelaR:  Byte;
-    FParalelaP:  Byte;
+
     FIndConseq: Smallint;
     procedure EndConseq;
     procedure ChvCsqEndMedia(Sender: TObject);
@@ -29,6 +28,8 @@ type
     procedure RunPunish;
     procedure RunReinf;
   public
+    FParalelaR:  Byte;
+    FParalelaP:  Byte;  
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure DoConseq(Ind: Integer);
@@ -199,21 +200,21 @@ end;
 
 procedure TConseq.RunPunish;
 begin
-  If FCanParalel then begin
+//  If FCanParalel then begin
     Try
       asm
         mov dx, $378
-        mov al, FParalelaP
+        mov al, 0
         out dx, al
         mov dx, $278
-        mov al, FParalelaP
+        mov al, 0
         out dx, al
       end;
       FTimerParalel.Enabled:= True;
     Except
       FFlagEndConseq1:= True;
     end;
-  end;
+//  end;
   If (FVetChvCsqInc[0].Kind = stmSound) or (FVetChvCsqInc[1].Kind = stmSound) then begin
     If (FVetChvCsqInc[0].Kind = stmSound) then begin
       FVetChvCsqInc[0].Play;
@@ -244,21 +245,21 @@ end;
 
 procedure TConseq.RunReinf;
 begin
-  If FCanParalel then begin
+//  If FCanParalel then begin
     Try
       asm
         mov dx, $378
-        mov al, FParalelaR
+        mov al, 255
         out dx, al
         mov dx, $278
-        mov al, FParalelaR
+        mov al, 255
         out dx, al
       end;
       FTimerParalel.Enabled:= True;
     Except
       FFlagEndConseq1:= True;
     end;
-  end;
+//  end;
   If (FVetChvCsqCor[0].Kind = stmSound) or (FVetChvCsqCor[1].Kind = stmSound) then begin
     If (FVetChvCsqCor[0].Kind = stmSound) then begin
       FVetChvCsqCor[0].Play;

@@ -49,16 +49,10 @@ procedure TBloco.NextTent(Ind: Integer);
 begin
   Case Ind of
     0: If FTentativa.Mode = mtStopped then Play;
-    1: If FTentativa.Mode = mtPlaying then begin
-         FTentativa.FIndChvResp:= FTentativa.FIndChvCor;
-         FTentativa.EndTent;
-       end;
-    2: If FTentativa.Mode = mtPlaying then begin
-         FTentativa.FIndChvResp:= -1;
-         FTentativa.EndTent;
-       end;
+    1: If FTentativa.Mode = mtPlaying then FTentativa.Response(True);
+    2: If FTentativa.Mode = mtPlaying then FTentativa.Response(False);
   end;
-end;                             
+end;
 
 procedure TBloco.Play;
 begin

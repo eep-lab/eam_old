@@ -9689,7 +9689,7 @@ object Sobre: TSobre
     Top = 100
     Width = 24
     Height = 19
-    Caption = '. 03'
+    Caption = '. 04'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

@@ -26,7 +26,7 @@ type
     procedure ChvModMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ChvCmpMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ConseqEndConseq(Sender: TObject);
-    procedure EndTent;    
+    procedure EndTent;
     procedure MostraCompara;
     procedure MostraModelo;
     procedure RodaModelo;
@@ -36,12 +36,14 @@ type
     Mode: TMode;
     FIndChvResp: Integer;
     FIndChvCor: Integer;
+    FResult: Boolean;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Paint; override;
     procedure PaintWindow(DC: HDC); override;
     procedure Play;
     procedure Reset;
+    procedure Response(Result: Boolean);
     procedure SetCfgTent(CfgTent: PCfgTent);
     procedure SetTent(Tent: PTent);
     property IndChvCor: Integer read FIndChvCor write FIndChvCor;
@@ -200,13 +202,13 @@ begin
   MostraCompara;
 end;
 
-procedure TTentativa.ChvCmpMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TTentativa.Response(Result: Boolean);
 var a1: Integer;
 begin
+  FResult:= Result;
+
   FTimerDurMax.Enabled:= False;
-  TChave(Sender).OnClick:= nil;
   FTimer2.Enabled:= False;
-  FIndChvResp:= TChave(Sender).Tag;
   Cursor:= crNone;
 
   For a1:= 0 to 8 do begin
@@ -214,11 +216,18 @@ begin
     FVetChvCmp[a1].Cursor:= crNone;
   end;
 
-  If FIndChvResp = FIndChvCor then FConseq.DoConseq(0)
+  If FResult then FConseq.DoConseq(0)
   else FConseq.DoConseq(1);
-  
+
   For a1:= 0 to 8 do
     If FConseq.Visible then FVetChvCmp[a1].Visible:= False;
+end;
+
+procedure TTentativa.ChvCmpMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  TChave(Sender).OnClick:= nil;
+  FIndChvResp:= TChave(Sender).Tag;
+  Response(FIndChvResp = FIndChvCor);
 end;
 
 procedure TTentativa.ConseqEndConseq(Sender: TObject);
@@ -249,13 +258,13 @@ begin
   If (FIndChvResp>-1) then s1:= s1+ FTent.Compar[FIndChvResp].Conjunto+IntToStr(FTent.Compar[FIndChvResp].Classe)+#9
   else s1:= s1+#9;
 
-  If FIndChvCor = FIndChvResp then begin
+  If FResult then begin
     s1:= s1+'Correta'+#9;
     If FTent.CsqCor[0].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[0].IndCsq)+' ';
     If FTent.CsqCor[1].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[1].IndCsq);
     s1:= s1+#9;
     If FTent.CanParalel then
-      s1:= s1+''+Copy(IntToBin(FTent.Paralela[0]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[0]), 29, 4)+#9
+      s1:= s1+''+IntToStr(FConseq.FParalelar){+Copy(IntToBin(FTent.Paralela[0]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[0]), 29, 4)}+#9
     else s1:= s1+'Desativada'+#9;
   end else begin
     If (FIndChvResp>=-1) then begin
@@ -264,7 +273,7 @@ begin
       If FTent.CsqInc[1].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[1].IndCsq);
       s1:= s1+#9;
       If FTent.CanParalel then
-        s1:= s1+''+Copy(IntToBin(FTent.Paralela[1]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[1]), 29, 4)+#9
+        s1:= s1+''+IntToStr(FConseq.FParalelaP){+Copy(IntToBin(FTent.Paralela[1]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[1]), 29, 4)}+#9
       else s1:= s1+'Desativada'+#9;
     end else
       If FTent.DuracaoMaxima>0 then s1:= s1+'Tempo Esgotado'+#9+' '+#9+#9
