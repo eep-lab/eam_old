@@ -3,24 +3,31 @@ program EAM;
 uses
   Forms,
   fUnit1 in 'fUnit1.pas' {Form1},
-  fInitSes in 'fInitSes.pas' {Form2},
   fSuport in 'fSuport.pas' {FormSup},
   uCfgSes in 'uCfgSes.pas',
-  uChave in 'uChave.pas',
-  uSett1100 in 'uSett1100.pas',
-  uAbsTent in 'uAbsTent.pas',
   uSessao in 'uSessao.pas',
-  fEstimulos in 'fEstimulos.pas' {FormEstimulos},
-  fSplash in 'fSplash.pas' {Form3},
-  uSett1200 in 'uSett1200.pas';
+  uTentativa in 'uTentativa.pas',
+  uRegData in 'uRegData.pas',
+  uChave in 'uChave.pas',
+  uBloco in 'uBloco.pas',
+  Windows,
+  uConseq in 'uConseq.pas',
+  fSplash in 'fSplash.pas' {Splash},
+  fSobre in 'fSobre.pas' {Sobre},
+  fGabarito in 'fGabarito.pas' {Gabaritos};
 
-{$R *.RES}
+{$R *.res}
 
 begin
+  Splash:= TSplash.Create(Application);
+  Splash.FTimerSplash.Interval:= 2000;
+  Splash.Flag:= True;
+  Splash.ShowModal;
+  Splash.Flag:= False;
+  Splash.Show;
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
-  Application.CreateForm(TForm2, Form2);
-  Application.CreateForm(TFormSup, FormSup);
-  Application.CreateForm(TFormEstimulos, FormEstimulos);
+  Screen.Cursors[1]:= LoadCursor(HInstance, 'EAM1');
+  Screen.Cursors[2]:= LoadCursor(HInstance, 'EAM2');
   Application.Run;
 end.

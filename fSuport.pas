@@ -3,11 +3,15 @@ unit fSuport;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs;
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Buttons;
 
 type
   TFormSup = class(TForm)
-    procedure FormDblClick(Sender: TObject);
+    SpeedButton1: TSpeedButton;
+    procedure FormKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -23,9 +27,17 @@ uses fUnit1;
 
 {$R *.DFM}
 
-procedure TFormSup.FormDblClick(Sender: TObject);
+procedure TFormSup.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
-  Close;
+  If (ssAlt in Shift) and (Key = 115) then
+    FreeAndNil(Sessao);
+end;
+
+procedure TFormSup.SpeedButton1Click(Sender: TObject);
+begin
+ SpeedButton1.Visible:= False;
+ Sessao.Play;
 end;
 
 end.

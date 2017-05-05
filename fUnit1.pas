@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  Menus, ComCtrls, Buttons, StdCtrls, MPlayer, ExtCtrls, ToolWin,
-  ImgList, uSessao, uCfgSes, fEstimulos, inifiles;
+  Menus, ComCtrls, Buttons, StdCtrls, MPlayer, ExtCtrls, ToolWin, inifiles,
+  ImgList, uSessao, uCfgSes, uTentativa;
 
 type
   TForm1 = class(TForm)
@@ -27,22 +27,34 @@ type
     RodarSesso1: TMenuItem;
     Ajuda1: TMenuItem;
     SobreoGalileu1: TMenuItem;
-    SaveDialog1: TSaveDialog;
+    Image1: TImage;
+    Gabaritos1: TMenuItem;
+    N800x6001: TMenuItem;
+    PortaParalela1: TMenuItem;
+    N2: TMenuItem;
     procedure FormCreate(Sender: TObject);
-    procedure ToolButton1Click(Sender: TObject);
     procedure Abrir1Click(Sender: TObject);
     procedure ToolButton4Click(Sender: TObject);
     procedure RodarSesso1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
     procedure Fechar1Click(Sender: TObject);
+    procedure ToolButton1Click(Sender: TObject);
     procedure SobreoGalileu1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure N800x6001Click(Sender: TObject);
+    procedure PortaParalela1Click(Sender: TObject);
   private
     { Private declarations }
-    FFlagEditFile: Boolean;
-    procedure EndSessao(Sender: TObject);
+    FTimerSplash: TTimer;
+    procedure TimerSplashTimer(Sender: TObject);
+    procedure SessaoEndSess(Sender: TObject);
   public
+    FCanParalel: Boolean;
     { Public declarations }
   end;
+
+const
+  Titulo: String = 'EAM 3.0';
 
 var
   Form1: TForm1;
@@ -50,51 +62,39 @@ var
   CfgSes: TCfgSes;
   Sessao: TSessao;
 
-const
-  Titulo: String = 'EAM (versão Beta 1.4)';
-
 implementation
 
-uses fSuport, fInitSes, fSplash;
+uses fSuport, fSplash, fSobre, fGabarito;
 
 {$R *.DFM}
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  Form3:= TForm3.Create(Self);
-  With Form3 do begin
-    Show;
+  FTimerSplash:= TTimer.Create(Self);
+  With FTimerSplash do begin
+    Enabled:= False;
+    Interval:= 3000;
+    OnTimer:= TimerSplashTimer;
   end;
   CurPath:= GetCurrentDir;
-  CfgSes:= TCfgSes.Create(Self);
-  Sessao:= TSessao.Create(Self);
-
-  With Sessao do begin
-    OnEndSess:= EndSessao;
-    SourcePath:= CurPath+'\Files\';
-  end;
-  FormSup:= TFormSup.Create(Self);
-dsads
-  Caption:= Titulo;
   OpenDialog1.InitialDir:= CurPath;
-  SaveDialog1.InitialDir:= CurPath;
+  Caption:= Titulo;
   Height:= 469;
   Width:= 650;
-  FFlagEditFile:= False;
-end;
 
-procedure TForm1.ToolButton1Click(Sender: TObject);
-begin
-  FormSup.Show;
-  Form2:= TForm2.Create(Self);
-  If Form2.ShowModal = mrOk then begin
-    FreeAndNil(Form2);
-    Sessao.SuportTent:= FormSup;
-    Sessao.Play;
-  end else begin
-    FreeAndNil(Form2);
-    FormSup.Visible:= False;
-  end;
+// Para o Win98SE em portugüês a função GetVersion retorna 3221228036
+  Try
+    asm
+      mov dx, $378
+      mov al, 0
+      out dx, al
+      mov dx, $278
+      mov al, 0
+      out dx, al
+    end;
+    FCanParalel:= True;
+  Except FCanParalel:= False end;
+
 end;
 
 procedure TForm1.Abrir1Click(Sender: TObject);
@@ -107,10 +107,12 @@ begin
   If OpenDialog1.Execute then begin
     FreeAndNil(CfgSes);
     CfgSes:= TCfgSes.Create(Self);
+    CfgSes.CanParalel:= FCanParalel;
     CfgSes.LoadFromFile(OpenDialog1.FileName);
-    Caption:= Titulo+' - '+CfgSes.Name;
+    Caption:= Titulo+' - '+CfgSes.Name+'  [ '+ ExtractFileName(OpenDialog1.FileName)+' ]';
     ToolButton1.Enabled:= True;
   end;
+  SetCurrentDir(CurPath);
 end;
 
 procedure TForm1.RodarSesso1Click(Sender: TObject);
@@ -126,18 +128,62 @@ end;
 procedure TForm1.Fechar1Click(Sender: TObject);
 begin
   FreeAndNil(CfgSes);
-  Caption:= Titulo;
 end;
 
-procedure TForm1.EndSessao(Sender: TObject);
+procedure TForm1.ToolButton1Click(Sender: TObject);
 begin
-  ToolButton1.Down:= False;
+  FormSup:= TFormSup.Create(Self);
+  With FormSup do begin
+    Show;
+  end;
+  FreeAndNil(Sessao);
+  Sessao:= TSessao.Create(Self);
+  With Sessao do begin
+    OnEndSess:= SessaoEndSess;
+    Support:= FormSup;
+    Reset(CfgSes);
+  end;
+end;
+
+procedure TForm1.SessaoEndSess(Sender: TObject);
+begin
+  FormSup.Close;
 end;
 
 procedure TForm1.SobreoGalileu1Click(Sender: TObject);
 begin
-  Form3:= TForm3.Create(Self);
-  Form3.Show;
+  Sobre:= TSobre.Create(Self);
+  Sobre.ShowModal;
+  Sobre.Free;
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  FTimerSplash.Enabled:= True;
+end;
+
+procedure TForm1.TimerSplashTimer(Sender: TObject);
+begin
+  FTimerSplash.Enabled:= False;
+  Splash.Free;
+  Enabled:= True;
+end;
+
+procedure TForm1.N800x6001Click(Sender: TObject);
+begin
+  Gabaritos:= TGabaritos.Create(Self);
+  Gabaritos.ShowModal;
+  Gabaritos.Free;
+end;
+
+procedure TForm1.PortaParalela1Click(Sender: TObject);
+var s1: String;
+begin
+  If FCanParalel then s1:= 'ativado.' else s1:= 'desativado.';
+  ShowMessage('O controle da Porta Paralela está '+s1+#13#10+
+              'O controle da Porta Paralela é automaticamente desativado quando rodando sobre o a plataforma '+
+              'NT (Windows 2000, XP e 2003). Para utilizar o controle da Porta Paralela com o EAM 3.0 é preciso '+
+              'usar uma versão anterior do Windows.');
 end;
 
 end.

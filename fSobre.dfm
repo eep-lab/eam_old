@@ -1,9 +1,9 @@
-object Splash: TSplash
-  Left = 196
-  Top = 113
-  BorderStyle = bsNone
-  Caption = 'Splash'
-  ClientHeight = 360
+object Sobre: TSobre
+  Left = 193
+  Top = 111
+  BorderStyle = bsDialog
+  Caption = 'Sobre o EAM 3.0'
+  ClientHeight = 378
   ClientWidth = 480
   Color = clInactiveCaptionText
   Font.Charset = DEFAULT_CHARSET
@@ -11,11 +11,7 @@ object Splash: TSplash
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  FormStyle = fsStayOnTop
   OldCreateOrder = False
-  Position = poScreenCenter
-  OnCreate = FormCreate
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
@@ -9676,6 +9672,19 @@ object Splash: TSplash
     ParentFont = False
   end
   object Label2: TLabel
+    Left = 136
+    Top = 352
+    Width = 209
+    Height = 20
+    Caption = 'Cr'#233'dito: Renato Bortoloti'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label3: TLabel
     Left = 201
     Top = 103
     Width = 21
