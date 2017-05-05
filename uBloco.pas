@@ -93,6 +93,7 @@ begin
   If (FBlc.NumTent-1 > FIndTent) then begin
     Inc(FIndTent);
 //    Play;
+    NextTent(0);
   end else begin
     EndBlc;
   end;

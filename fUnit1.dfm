@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 196
-  Top = 113
+  Left = 213
+  Top = 120
   AutoScroll = False
   ClientHeight = 347
   ClientWidth = 584

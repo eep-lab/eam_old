@@ -68,7 +68,7 @@ begin
   If (FCountRptBlc < FCfgSes.VetBlc[FIndBlc].NumMaxExecBlc) then begin
     FVetBloco[FIndBlc].Reset(FCfgSes.VetBlc[FIndBlc], FTentativa);
     FVetBloco[FIndBlc].OnEndBlc:= BlocoEndBlc;
-//    FVetBloco[FIndBlc].Play;
+    FVetBloco[FIndBlc].Play;
   end else EndSessao;
 end;
 

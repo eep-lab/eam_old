@@ -9687,7 +9687,7 @@ object Splash: TSplash
     Top = 100
     Width = 16
     Height = 19
-    Caption = '05'
+    Caption = '06'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

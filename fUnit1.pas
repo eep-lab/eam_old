@@ -59,7 +59,7 @@ type
   end;
 
 const
-  Titulo: String = 'EAM 3.0.05';
+  Titulo: String = 'EAM 3.0.06';
 
 var
   Form1: TForm1;
