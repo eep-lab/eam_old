@@ -10,7 +10,7 @@ type
   private
     FCfgSes: TCfgSes;
     FIndBlc: Integer;
-    FOnEndSess: TNotifyEvent;
+    FOnEndSess: TNotifyEvent;         
     FRegData: TRegData;
     FSaveDialog: TSaveDialog;
     FTentativa: TTentativa;
@@ -22,7 +22,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure NextTent;
+    procedure NextTent(Ind: Integer);
     procedure Play;
     procedure Reset(CfgSes: TCfgSes);
     property Support: TWinControl read FSupport write FSupport;
@@ -56,9 +56,9 @@ begin
   Inherited Destroy;
 end;
 
-procedure TSessao.NextTent;
+procedure TSessao.NextTent(Ind: Integer);
 begin
-  FVetBloco[FIndBlc].NextTent;  
+  FVetBloco[FIndBlc].NextTent(Ind);
 end;
 
 procedure TSessao.Play;

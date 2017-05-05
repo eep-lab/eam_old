@@ -2,7 +2,7 @@ object Sobre: TSobre
   Left = 193
   Top = 111
   BorderStyle = bsDialog
-  Caption = 'Sobre o EAM 3.0.01'
+  Caption = 'Sobre o EAM 3.0.03'
   ClientHeight = 378
   ClientWidth = 480
   Color = clInactiveCaptionText
@@ -9689,7 +9689,7 @@ object Sobre: TSobre
     Top = 100
     Width = 24
     Height = 19
-    Caption = '. 02'
+    Caption = '. 03'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

@@ -22,7 +22,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure NextTent;
+    procedure NextTent(Ind: Integer);
     procedure Play;
     procedure Reset(Blc: PBlc; Tentativa: TTentativa);
     property OnEndBlc: TEndBlcEvent read FOnEndBlc write FOnEndBlc;
@@ -45,10 +45,20 @@ begin
   Inherited Destroy;
 end;
 
-procedure TBloco.NextTent;
+procedure TBloco.NextTent(Ind: Integer);
 begin
-  Play;
-end;
+  Case Ind of
+    0: If FTentativa.Mode = mtStopped then Play;
+    1: If FTentativa.Mode = mtPlaying then begin
+         FTentativa.FIndChvResp:= FTentativa.FIndChvCor;
+         FTentativa.EndTent;
+       end;
+    2: If FTentativa.Mode = mtPlaying then begin
+         FTentativa.FIndChvResp:= -1;
+         FTentativa.EndTent;
+       end;
+  end;
+end;                             
 
 procedure TBloco.Play;
 begin

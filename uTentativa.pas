@@ -8,31 +8,36 @@ uses Windows, classes, controls, ExtCtrls, IdGlobal, Graphics, Forms, SysUtils,
 type
   TEndTentEvent = procedure (Sender: TObject; Data: String; Result: Boolean) of object;
 
+  TMode = (mtStopped, mtPlaying);
+
   TTentativa = class(TCustomControl)
   private
     FConseq: TConseq;
     FHeader: String;
-    FIndChvCor: Integer;
+
     FLatencia: Integer;
     FOnEndTent: TEndTentEvent;
     FTent: PTent;
     FTimer2: TTimer;
     FTimerDurMax: TTimer;
-    FIndChvResp: Integer;
+
     FVetChvMod: Array [0..8] of TChave;
     FVetChvCmp: Array [0..8] of TChave;
     procedure ChvModMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ChvCmpMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ConseqEndConseq(Sender: TObject);
+    procedure EndTent;    
     procedure MostraCompara;
     procedure MostraModelo;
     procedure RodaModelo;
     procedure Timer2Timer(Sender: TObject);
     procedure TimerDurMaxTimer(Sender: TObject);
   public
+    Mode: TMode;
+    FIndChvResp: Integer;
+    FIndChvCor: Integer;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure EndTent;    
     procedure Paint; override;
     procedure PaintWindow(DC: HDC); override;
     procedure Play;
@@ -55,6 +60,7 @@ constructor TTentativa.Create(AOwner: TComponent);
 var a1: Integer;
 begin
   Inherited Create(AOwner);
+  Mode:= mtStopped;
   For a1:= 0 to 8 do begin
     FVetChvMod[a1]:= TChave.Create(Self);
     With FVetChvMod[a1] do begin
@@ -111,6 +117,7 @@ end;
 procedure TTentativa.Play;
 var a1: Integer; b1, b2: Boolean;
 begin
+  Mode:= mtPlaying;
   b1:= False; b2:= False;
   For a1:= 0 to 8 do If FVetChvMod[a1].Kind = stmSound then b1:= True;
   For a1:= 0 to 8 do If FVetChvMod[a1].Kind = stmImage then b2:= True;
@@ -222,6 +229,7 @@ end;
 procedure TTentativa.EndTent;
 var s1: String; a1: Integer; b1: Boolean;
 begin
+  Mode:= mtStopped;
   FTimerDurMax.Enabled:= False;
   For a1:= 0 to 8 do
     If FVetChvMod[a1].Kind <> stmNone then
@@ -250,7 +258,7 @@ begin
       s1:= s1+''+Copy(IntToBin(FTent.Paralela[0]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[0]), 29, 4)+#9
     else s1:= s1+'Desativada'+#9;
   end else begin
-    If (FIndChvResp>-1) then begin
+    If (FIndChvResp>=-1) then begin
       s1:= s1+'Errada'+#9;
       If FTent.CsqInc[0].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[0].IndCsq)+' ';
       If FTent.CsqInc[1].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[1].IndCsq);
