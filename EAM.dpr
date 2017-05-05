@@ -14,7 +14,8 @@ uses
   uConseq in 'uConseq.pas',
   fSplash in 'fSplash.pas' {Splash},
   fSobre in 'fSobre.pas' {Sobre},
-  fGabarito in 'fGabarito.pas' {Gabaritos};
+  fGabarito in 'fGabarito.pas' {Gabaritos},
+  fCursor in 'fCursor.pas' {Cursor};
 
 {$R *.res}
 
@@ -27,6 +28,7 @@ begin
   Splash.Show;
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TCursor, Cursor);
   Screen.Cursors[1]:= LoadCursor(HInstance, 'EAM1');
   Screen.Cursors[2]:= LoadCursor(HInstance, 'EAM2');
   Application.Run;

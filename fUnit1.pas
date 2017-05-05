@@ -32,6 +32,9 @@ type
     N800x6001: TMenuItem;
     PortaParalela1: TMenuItem;
     N2: TMenuItem;
+    DescubraaCor1: TMenuItem;
+    ColorDialog1: TColorDialog;
+    DescubraoCursor1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Abrir1Click(Sender: TObject);
     procedure ToolButton4Click(Sender: TObject);
@@ -43,6 +46,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure N800x6001Click(Sender: TObject);
     procedure PortaParalela1Click(Sender: TObject);
+    procedure DescubraaCor1Click(Sender: TObject);
+    procedure DescubraoCursor1Click(Sender: TObject);
   private
     { Private declarations }
     FTimerSplash: TTimer;
@@ -54,7 +59,7 @@ type
   end;
 
 const
-  Titulo: String = 'EAM 3.0';
+  Titulo: String = 'EAM 3.0.01';
 
 var
   Form1: TForm1;
@@ -64,7 +69,7 @@ var
 
 implementation
 
-uses fSuport, fSplash, fSobre, fGabarito;
+uses fSuport, fSplash, fSobre, fGabarito, fCursor;
 
 {$R *.DFM}
 
@@ -111,6 +116,7 @@ begin
     CfgSes.LoadFromFile(OpenDialog1.FileName);
     Caption:= Titulo+' - '+CfgSes.Name+'  [ '+ ExtractFileName(OpenDialog1.FileName)+' ]';
     ToolButton1.Enabled:= True;
+    RodarSesso1.Enabled:= True;
   end;
   SetCurrentDir(CurPath);
 end;
@@ -181,9 +187,21 @@ var s1: String;
 begin
   If FCanParalel then s1:= 'ativado.' else s1:= 'desativado.';
   ShowMessage('O controle da Porta Paralela está '+s1+#13#10+
-              'O controle da Porta Paralela é automaticamente desativado quando rodando sobre o a plataforma '+
-              'NT (Windows 2000, XP e 2003). Para utilizar o controle da Porta Paralela com o EAM 3.0 é preciso '+
+              'O controle da Porta Paralela é automaticamente desativado quando rodando sobre a plataforma '+
+              'NT (Windows 2000, XP e 2003). Para utilizar o controle da Porta Paralela com o EAM 3.1 é preciso '+
               'usar uma versão anterior do Windows.');
+end;
+
+procedure TForm1.DescubraaCor1Click(Sender: TObject);
+begin
+  If ColorDialog1.Execute then
+    ShowMessage('O valor correspondente à cor selecionada é: '+IntToStr(ColorDialog1.Color));
+end;
+
+procedure TForm1.DescubraoCursor1Click(Sender: TObject);
+begin
+  fCursor.Cursor:= TCursor.Create(Self);
+  fCursor.Cursor.ShowModal;
 end;
 
 end.

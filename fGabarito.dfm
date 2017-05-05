@@ -139,7 +139,7 @@ object Gabaritos: TGabaritos
   object SaveDialog1: TSaveDialog
     DefaultExt = 'txt'
     FileName = 'Gabarito'
-    Filter = 'Arquivo de Sess'#227'o (EAM 3.0)|*.txt'
+    Filter = 'Arquivo de Sess'#227'o (EAM 3.0.01)|*.txt'
     Left = 416
     Top = 237
   end

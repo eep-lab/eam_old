@@ -17,6 +17,7 @@ type
     FOnEndTent: TEndTentEvent;
     FTent: PTent;
     FTimer2: TTimer;
+    FTimerDurMax: TTimer;
     FIndChvResp: Integer;
     FVetChvMod: Array [0..8] of TChave;
     FVetChvCmp: Array [0..8] of TChave;
@@ -28,6 +29,7 @@ type
     procedure MostraModelo;
     procedure RodaModelo;
     procedure Timer2Timer(Sender: TObject);
+    procedure TimerDurMaxTimer(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -79,6 +81,12 @@ begin
     OnTimer:= Timer2Timer;
     Interval:= 100;
   end;
+  FTimerDurMax:= TTimer.Create(Self);
+  With FTimerDurMax do begin
+    Enabled:= False;
+    OnTimer:= TimerDurMaxTimer;
+  end;
+
   FHeader:= Labels;
   Reset;
 end;
@@ -109,13 +117,17 @@ begin
   If b2 then MostraModelo
   else MostraCompara;
   If b1 then RodaModelo;
+  FTimerDurMax.Enabled:= (FTimerDurMax.Interval > 0);
 end;
 
 procedure TTentativa.Reset;
 var a1: Integer;
 begin
+  FTimer2.Enabled:= False;
+  FTimerDurMax.Enabled:= False;
   Cursor:= crNone;
   FIndChvCor:= -1;
+  FIndChvResp:= -1;
   FLatencia:= 0;
   For a1:= 0 to 8 do begin
     With FVetChvMod[a1] do begin
@@ -156,6 +168,7 @@ begin
   FTent:= Tent;
   Cursor:= FTent.CursorDeFundo;
   Color:= FTent.CorDeFundo;
+  FTimerDurMax.Interval:= FTent.DuracaoMaxima;
   For a1:= 0 to 8 do begin
     FVetChvMod[a1].FileName:= FTent.Modelo[a1].PStm^;
     FVetChvMod[a1].Cursor:= FTent.CursorDasChaves;
@@ -172,6 +185,7 @@ end;
 procedure TTentativa.ChvModMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var a1: Integer;
 begin
+  FTimerDurMax.Enabled:= False;
   For a1:= 0 to 8 do begin
     FVetChvMod[a1].Visible:= False;
     FVetChvMod[a1].Stop;
@@ -182,6 +196,7 @@ end;
 procedure TTentativa.ChvCmpMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var a1: Integer;
 begin
+  FTimerDurMax.Enabled:= False;
   TChave(Sender).OnClick:= nil;
   FTimer2.Enabled:= False;
   FIndChvResp:= TChave(Sender).Tag;
@@ -207,6 +222,7 @@ end;
 procedure TTentativa.EndTent;
 var s1: String; a1: Integer; b1: Boolean;
 begin
+  FTimerDurMax.Enabled:= False;
   For a1:= 0 to 8 do
     If FVetChvMod[a1].Kind <> stmNone then
       s1:= s1+FTent.Modelo[a1].Conjunto+IntToStr(FTent.Modelo[a1].Classe)+#32;
@@ -222,7 +238,8 @@ begin
       s1:= s1+ FTent.Compar[FIndChvCor].Conjunto+IntToStr(FTent.Compar[FIndChvCor].Classe);
   s1:= s1+#9;
 
-  s1:= s1+ FTent.Compar[FIndChvResp].Conjunto+IntToStr(FTent.Compar[FIndChvResp].Classe)+#9;
+  If (FIndChvResp>-1) then s1:= s1+ FTent.Compar[FIndChvResp].Conjunto+IntToStr(FTent.Compar[FIndChvResp].Classe)+#9
+  else s1:= s1+#9;
 
   If FIndChvCor = FIndChvResp then begin
     s1:= s1+'Correta'+#9;
@@ -233,13 +250,17 @@ begin
       s1:= s1+''+Copy(IntToBin(FTent.Paralela[0]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[0]), 29, 4)+#9
     else s1:= s1+'Desativada'+#9;
   end else begin
-    s1:= s1+'Errada'+#9;
-    If FTent.CsqInc[0].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[0].IndCsq)+' ';
-    If FTent.CsqInc[1].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[1].IndCsq);
-    s1:= s1+#9;
-    If FTent.CanParalel then
-      s1:= s1+''+Copy(IntToBin(FTent.Paralela[1]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[1]), 29, 4)+#9
-    else s1:= s1+'Desativada'+#9;
+    If (FIndChvResp>-1) then begin
+      s1:= s1+'Errada'+#9;
+      If FTent.CsqInc[0].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[0].IndCsq)+' ';
+      If FTent.CsqInc[1].PStm^>'' then s1:= s1+'CS'+IntToStr(FTent.CsqCor[1].IndCsq);
+      s1:= s1+#9;
+      If FTent.CanParalel then
+        s1:= s1+''+Copy(IntToBin(FTent.Paralela[1]), 25, 4)+'-'+Copy(IntToBin(FTent.Paralela[1]), 29, 4)+#9
+      else s1:= s1+'Desativada'+#9;
+    end else
+      If FTent.DuracaoMaxima>0 then s1:= s1+'Tempo Esgotado'+#9+' '+#9+#9
+      else s1:= s1+#9+#9+#9;
   end;
 
   s1:= s1+IntToStr(FLatencia)+#9;
@@ -284,6 +305,11 @@ end;
 procedure TTentativa.Timer2Timer(Sender: TObject);
 begin
   FLatencia:= FLatencia + 100;
+end;
+
+procedure TTentativa.TimerDurMaxTimer(Sender: TObject);
+begin
+  EndTent;  
 end;
 
 end.

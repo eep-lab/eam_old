@@ -6,7 +6,7 @@ uses Windows, SysUtils, Classes, Controls, ExtCtrls,
      uCfgSes, uChave;
 
 type                                     
-  TConseq = class(TCustomControl)
+  TConseq = class(TCustomControl)                             
   private
     FOnEndConseq: TNotifyEvent;
     FCanParalel: Boolean;

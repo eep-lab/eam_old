@@ -2,7 +2,7 @@ object Sobre: TSobre
   Left = 193
   Top = 111
   BorderStyle = bsDialog
-  Caption = 'Sobre o EAM 3.0'
+  Caption = 'Sobre o EAM 3.0.01'
   ClientHeight = 378
   ClientWidth = 480
   Color = clInactiveCaptionText
@@ -9674,7 +9674,7 @@ object Sobre: TSobre
   object Label2: TLabel
     Left = 136
     Top = 352
-    Width = 209
+    Width = 175
     Height = 20
     Caption = 'Cr'#233'dito: Renato Bortoloti'
     Font.Charset = DEFAULT_CHARSET
@@ -9685,8 +9685,21 @@ object Sobre: TSobre
     ParentFont = False
   end
   object Label3: TLabel
-    Left = 201
-    Top = 103
+    Left = 194
+    Top = 100
+    Width = 24
+    Height = 19
+    Caption = '. 01'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 197
+    Top = 118
     Width = 21
     Height = 13
     Caption = 'beta'

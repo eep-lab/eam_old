@@ -9676,11 +9676,24 @@ object Splash: TSplash
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 201
-    Top = 103
+    Left = 197
+    Top = 118
     Width = 21
     Height = 13
     Caption = 'beta'
+  end
+  object Label3: TLabel
+    Left = 194
+    Top = 100
+    Width = 24
+    Height = 19
+    Caption = '. 01'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold]
+    ParentFont = False
   end
   object Memo1: TMemo
     Left = 72

@@ -9770,6 +9770,7 @@ object Form1: TForm1
       end
       object RodarSesso1: TMenuItem
         Caption = 'Rodar Sess'#227'o'
+        Enabled = False
         ImageIndex = 0
         OnClick = RodarSesso1Click
       end
@@ -9792,7 +9793,7 @@ object Form1: TForm1
     object Ajuda1: TMenuItem
       Caption = 'Aj&uda'
       object SobreoGalileu1: TMenuItem
-        Caption = '&Sobre o EAM 3.0'
+        Caption = '&Sobre o EAM'
         OnClick = SobreoGalileu1Click
       end
       object N2: TMenuItem
@@ -9802,6 +9803,14 @@ object Form1: TForm1
       object PortaParalela1: TMenuItem
         Caption = '&Porta Paralela'
         OnClick = PortaParalela1Click
+      end
+      object DescubraaCor1: TMenuItem
+        Caption = 'Descubra a &Cor'
+        OnClick = DescubraaCor1Click
+      end
+      object DescubraoCursor1: TMenuItem
+        Caption = 'Descubra o C&ursor'
+        OnClick = DescubraoCursor1Click
       end
     end
   end
@@ -10216,5 +10225,11 @@ object Form1: TForm1
       F81FF00FC007001FF83F03E0C0078FF1F87F03E0C00FFFF9F8FF03E0C01FFF75
       F9FF03E0C03FFF8FFFFF03E0FFFFFFFF00000000000000000000000000000000
       000000000000}
+  end
+  object ColorDialog1: TColorDialog
+    Ctl3D = True
+    Color = clLime
+    Left = 8
+    Top = 184
   end
 end

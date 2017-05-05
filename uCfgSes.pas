@@ -37,6 +37,7 @@ type
     CursorDasChaves: Smallint;
     CorDeFundo: Integer;
     TempoConseq: Integer;
+    DuracaoMaxima: Integer;
 
     CanParalel: Boolean;
     Paralela: Array [0..1] of Integer;
@@ -101,7 +102,7 @@ procedure TCfgSes.LoadFromFile(Path: String);
 var
   IniFile: TIniFile;
   a1, a2, a3: Integer;
-  atraso, curfnd, curchv, corfnd, durcsq: Integer;
+  atraso, curfnd, curchv, corfnd, durcsq, durtnt: Integer;
   indcnj, indcls: Integer;
   indcsq: Byte;
   s1, s2: String;
@@ -180,6 +181,7 @@ begin
     curchv:= IniFile.ReadInteger('Bloco'+IntToStr(a1+1), 'Tipo de Cursor para as Chaves', -2);
     corfnd:= IniFile.ReadInteger('Bloco'+IntToStr(a1+1), 'Cor de Fundo das Tentativas', 0);
     durcsq:= IniFile.ReadInteger('Bloco'+IntToStr(a1+1), 'Duração da Apresentação da Conseqüência Visual', 1000);
+    durtnt:= IniFile.ReadInteger('Bloco'+IntToStr(a1+1), 'Duração Máxima da Tentativa', 0);
 
     SetLength(FVetBlc[a1].VetTent, FVetBlc[a1].NumTent);
     For a2:= 0 to FVetBlc[a1].NumTent-1 do begin
@@ -190,6 +192,7 @@ begin
       FVetBlc[a1].VetTent[a2].CursorDasChaves:= curchv;
       FVetBlc[a1].VetTent[a2].CorDeFundo:= corfnd;
       FVetBlc[a1].VetTent[a2].TempoConseq:= durcsq;
+      FVetBlc[a1].VetTent[a2].DuracaoMaxima:= durtnt;
 
       For a3:= 0 to 8 do begin
         s1:= IniFile.ReadString('Bloco'+IntToStr(a1+1), 'T'+IntToStr(a2+1)+' Chv Mod '+IntToStr(a3+1), '');

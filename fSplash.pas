@@ -12,6 +12,7 @@ type
     Memo1: TMemo;
     Label1: TLabel;
     Label2: TLabel;
+    Label3: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private

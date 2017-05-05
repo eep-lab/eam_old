@@ -58,7 +58,7 @@ begin
     AssignFile(F, SaveDialog1.FileName);
     Rewrite(F);
     Write(F,
-    'EAM 3.0'+#13#10+
+    'EAM 3.0.01'+#13#10+
     #13#10+
     '[Sessão]'+#13#10);
 
@@ -325,6 +325,7 @@ begin
       'Tipo de Cursor para as Chaves= -3'+#13#10+
       'Cor de Fundo das Tentativas= 0'+#13#10+
       'Duração da Apresentação da Conseqüência Visual= 1000'+#13#10+
+      'Duração Máxima da Tentativa= '+#13#10+
       #13#10);
       For a2:= 1 to FVetBlc[a1-1] do begin
         s1:= IntToStr(a2);
