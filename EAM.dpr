@@ -11,7 +11,8 @@ uses
   uAbsTent in 'uAbsTent.pas',
   uSessao in 'uSessao.pas',
   fEstimulos in 'fEstimulos.pas' {FormEstimulos},
-  fSplash in 'fSplash.pas' {Form3};
+  fSplash in 'fSplash.pas' {Form3},
+  uSett1200 in 'uSett1200.pas';
 
 {$R *.RES}
 

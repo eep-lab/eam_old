@@ -51,7 +51,7 @@ var
   Sessao: TSessao;
 
 const
-  Titulo: String = 'EAM (versão Beta 1.1.02)';
+  Titulo: String = 'EAM (versão Beta 1.2)';
 
 implementation
 

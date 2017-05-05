@@ -3,7 +3,7 @@ unit uSessao;
 interface
 
 uses Windows, classes, controls, Sysutils, Graphics, Forms,
-     uCfgSes, uAbsTent, uChave, uSett1100, extctrls, FileCtrl,
+     uCfgSes, uAbsTent, uChave, uSett1100, uSett1200, extctrls, FileCtrl,
      Dialogs;
 
 type
@@ -25,6 +25,7 @@ type
     FTent: TAbstractTentativa;
     FTimer1: TTimer;
     FVetData: Array of TDatas;
+    FVetTent: Array of TAbstractTentativa;
     procedure EndBlc;
     procedure EndTent(Sender: TObject; Datas: TDatas);
     procedure EndSess;
@@ -73,7 +74,9 @@ begin
     OnTimer:= Timer1Timer;
     Interval:= 0;
   end;
-  FTent:= TSett1100.Create(Self);
+  SetLength(FVetTent, 2);
+  FVetTent[0]:= TSett1100.Create(Self);
+  FVetTent[1]:= TSett1200.Create(Self);
 end;
 
 destructor TSessao.Destroy;
@@ -84,18 +87,21 @@ end;
 procedure TSessao.LoadSession;
 var a1, a2, a3, a4: Integer;
 begin
-  For a1:= 0 to CfgSes.NumSeq-1 do
-    For a2:= 0 to CfgSes.Seq[a1].NumTent-1 do
+  For a1:= 0 to CfgSes.NumSeq-1 do begin
+    For a2:= 0 to CfgSes.Seq[a1].NumTent-1 do begin
       For a3:= 0 to CfgSes.Seq[a1].VetTent[a2].NumListChv-1 do
         For a4:= 0 to CfgSes.Seq[a1].VetTent[a2].VetListChv[a3].NumPtStm-1 do
           With CfgSes.Seq[a1].VetTent[a2].VetListChv[a3].VetPtStm[a4] do begin
-            If not Assigned(CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].Chave) then
+            If not Assigned(CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].Chave) then begin
               CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].Chave:= TChave.Create(Self);
               CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].Chave.FileName:=
                  FSourcePath+CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].FileName;
               CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].Chave.LabelStm:=
                              CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].LabelStm;
+            end;
           end;
+    end;
+  end;
 end;
 
 procedure TSessao.Play;
@@ -152,30 +158,28 @@ begin
     For a1:= 0 to CfgSes.Seq[IndSeq].VetTent[IndTent].NumListPar-1 do
       For a2:= 0 to CfgSes.Seq[IndSeq].VetTent[IndTent].VetListPar[a1].NumPar-1 do
         MatPar[a1, a2]:= CfgSes.Seq[IndSeq].VetTent[IndTent].VetListPar[a1].VetPar[a2];
-
     For a1:= 0 to CfgSes.Seq[IndSeq].VetTent[IndTent].NumListChv-1 do
       For a2:= 0 to CfgSes.Seq[IndSeq].VetTent[IndTent].VetListChv[a1].NumPtStm-1 do begin
         With CfgSes.Seq[IndSeq].VetTent[IndTent].VetListChv[a1].VetPtStm[a2] do
           InsertChv(a1, a2, CfgSes.CfgStm[IndCfgStm].MatStm[Col, Lin].Chave);
-        With CfgSes.CfgTent[CfgSes.Seq[IndSeq].IndCfgTent].VetListCfgChv[a1].VetCfgChv[a2] do begin
-          MatChv[a1, a2].AutoSize:= AutoSize;
-          MatChv[a1, a2].BorderColor:= BorderColor;
+        If Assigned(MatChv[a1, a2]) then
+          With CfgSes.CfgTent[CfgSes.Seq[IndSeq].IndCfgTent].VetListCfgChv[a1].VetCfgChv[a2] do begin
+            MatChv[a1, a2].AutoSize:= AutoSize;
+            MatChv[a1, a2].BorderColor:= BorderColor;
 
-          MatChv[a1, a2].plWidth:= Width;
-          MatChv[a1, a2].plHeight:= Height;
+            MatChv[a1, a2].plWidth:= Width;
+            MatChv[a1, a2].plHeight:= Height;
 
-          MatChv[a1, a2].plLeft:= Left;
-          MatChv[a1, a2].plTop:= Top;
+            MatChv[a1, a2].plLeft:= Left;
+            MatChv[a1, a2].plTop:= Top;
 
-          MatChv[a1, a2].Alignment:= Alignment;
+            MatChv[a1, a2].Alignment:= Alignment;
 
-          MatChv[a1, a2].ShowBorder:= ShowBorder;
-          MatChv[a1, a2].Transparent:= Transparent;
+            MatChv[a1, a2].ShowBorder:= ShowBorder;
+            MatChv[a1, a2].Transparent:= Transparent;
 
-          MatChv[a1, a2].Visible:= Visible;
-
-          MatChv[a1, a2].LabelChv:= LabelChv;
-        end;
+            MatChv[a1, a2].LabelChv:= LabelChv;
+          end;
     end;
     Parent:= FSuportTent;
   end;
@@ -192,8 +196,12 @@ begin
   If IndBlc < CfgSes.NumBlc then begin
     If IndTent < CfgSes.Blc[IndBlc].NumTent then begin
       FTimer1.Interval:= CfgSes.Blc[IndBlc].ITI;
-      With CfgSes.Blc[IndBlc].VetPtTent[IndTent] do
+      With CfgSes.Blc[IndBlc].VetPtTent[IndTent] do begin
+        If (CfgSes.CfgTent[CfgSes.Seq[IndSeq].IndCfgTent].Script > -1) and
+           (CfgSes.CfgTent[CfgSes.Seq[IndSeq].IndCfgTent].Script < Length(FVetTent)) then
+          FTent:= FVetTent[CfgSes.CfgTent[CfgSes.Seq[IndSeq].IndCfgTent].Script];
         SetTentativa(FTent, IndSeq, IndTent);
+      end;
       FTent.Visible:= True;
       FTent.Play;
     end else EndBlc;

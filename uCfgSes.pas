@@ -39,6 +39,7 @@ type
 
   TCfgTent = Record
     Name: AnsiString;
+    Script: Integer;
     NumListCfgChv: Integer;
     VetListCfgChv: Array of TListCfgChv;
   end;
@@ -203,6 +204,7 @@ begin
   For a1:= 0 to FNumCfgTent-1 do begin
     s1:= IniFile.ReadString('CfgTent', IntToStr(a1+1), '');
     FCfgTent[a1].Name:= Copy(s1, 2, Length(s1)-1);
+    FCfgTent[a1].Script:= IniFile.ReadInteger(s1, 'Script', 0);
     FCfgTent[a1].NumListCfgChv:= IniFile.ReadInteger(s1, 'NumListCfgChv', 0);
     SetLength(FCfgTent[a1].VetListCfgChv, FCfgTent[a1].NumListCfgChv);
     For a2:= 0 to FCfgTent[a1].NumListCfgChv-1 do begin

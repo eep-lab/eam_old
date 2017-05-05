@@ -45,7 +45,6 @@ type
     TitVTop: Integer;
     procedure CalculaTitPos;
     function  IntToCls(Value: Integer): String;
-    function  MakeBackUpFile(FileName, DestPath: String): String;
     procedure SetBitMap(Orientation: Integer; BitMap: TBitMap; Text: String);
   public
     { Public declarations }
@@ -183,26 +182,6 @@ procedure TFormEstimulos.SpeedButton5Click(Sender: TObject);
 begin
   If OpenDialog1.Execute then
     FChave.FileName:= OpenDialog1.FileName;
-end;
-
-function TFormEstimulos.MakeBackUpFile(FileName, DestPath: String): String;
-var f1, f2: File;
-//    s1, s2, s3: String;
-    a1, a2: Integer;
-    Buf: array[1..2048] of Char;
-begin
-  If FileExists(FileName) then begin
-    AssignFile(f1, FileName);
-    AssignFile(f2, Result);
-    System.Reset(f1, 1);
-    Rewrite(f2, 1);
-    Repeat
-      BlockRead(f1, Buf, SizeOf(Buf), a1);
-      BlockWrite(f2, Buf, a1, a2);
-    Until (a1 = 0) or (a2 <> a1);
-    CloseFile(f1);
-    CloseFile(f2);
-  end else Result:= FileName;
 end;
 
 end.
