@@ -33,6 +33,7 @@ type
     procedure Timer2Timer(Sender: TObject);
     procedure TimerDurMaxTimer(Sender: TObject);
   public
+    FEnabledTS: Boolean;  
     Mode: TMode;
     FIndChvResp: Integer;
     FIndChvCor: Integer;
@@ -62,6 +63,7 @@ constructor TTentativa.Create(AOwner: TComponent);
 var a1: Integer;
 begin
   Inherited Create(AOwner);
+  FEnabledTS:= True;  
   Mode:= mtStopped;
   For a1:= 0 to 8 do begin
     FVetChvMod[a1]:= TChave.Create(Self);
@@ -225,9 +227,11 @@ end;
 
 procedure TTentativa.ChvCmpMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  TChave(Sender).OnClick:= nil;
-  FIndChvResp:= TChave(Sender).Tag;
-  Response(FIndChvResp = FIndChvCor);
+  If FEnabledTS then begin
+    TChave(Sender).OnClick:= nil;
+    FIndChvResp:= TChave(Sender).Tag;
+    Response(FIndChvResp = FIndChvCor);
+  end;
 end;
 
 procedure TTentativa.ConseqEndConseq(Sender: TObject);

@@ -1,6 +1,6 @@
 object FormSup: TFormSup
-  Left = 123
-  Top = 101
+  Left = 213
+  Top = 120
   BorderStyle = bsNone
   Caption = 'FormSup'
   ClientHeight = 457
@@ -15,6 +15,7 @@ object FormSup: TFormSup
   OldCreateOrder = False
   WindowState = wsMaximized
   OnKeyDown = FormKeyDown
+  OnKeyUp = FormKeyUp
   PixelsPerInch = 96
   TextHeight = 13
   object SpeedButton1: TSpeedButton
@@ -4076,5 +4077,12 @@ object FormSup: TFormSup
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     OnClick = SpeedButton1Click
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = Timer1Timer
+    Left = 128
+    Top = 88
   end
 end

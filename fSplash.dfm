@@ -9685,9 +9685,9 @@ object Splash: TSplash
   object Label3: TLabel
     Left = 194
     Top = 100
-    Width = 24
+    Width = 16
     Height = 19
-    Caption = '. 04'
+    Caption = '05'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16

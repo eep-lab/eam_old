@@ -10,11 +10,11 @@ type
   private
     FCfgSes: TCfgSes;
     FIndBlc: Integer;
-    FOnEndSess: TNotifyEvent;         
+    FOnEndSess: TNotifyEvent;
     FRegData: TRegData;
     FSaveDialog: TSaveDialog;
-    FTentativa: TTentativa;
     FSupport: TWinControl;
+    FTentativa: TTentativa;
     FVetBloco: Array of TBloco;
     FCountRptBlc: Integer;
     procedure BlocoEndBlc(Sender: TObject; Datas: String; Result: Integer);
@@ -22,6 +22,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure EnabledTS(Value: Boolean);
     procedure NextTent(Ind: Integer);
     procedure Play;
     procedure Reset(CfgSes: TCfgSes);
@@ -108,6 +109,11 @@ procedure TSessao.EndSessao;
 begin
   FRegData.Free;
   If Assigned(OnEndSess) then FOnEndSess(Self);
+end;
+
+procedure TSessao.EnabledTS(Value: Boolean);
+begin
+  FTentativa.FEnabledTS:= Value;
 end;
 
 end.
