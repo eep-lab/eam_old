@@ -2,9 +2,13 @@ unit uBlc;
 
 interface
 
-uses Classes, IdGlobal, Controls, Windows, ExtCtrls, SysUtils, StrUtils,
+uses Classes, IdGlobal, Controls, Windows, ExtCtrls, SysUtils, StrUtils, Graphics, Forms,
      uCfgSes, uTrial, uRegData,
-     uTrialMTSSuc, uTrialNat, uTrialNat2, uTrialMar;
+     uTrialMsg,
+     uTrialMTS, uTrialSimpl,
+     uTrialNat, uTrialNatC, uTrialMar,
+     uTrialMTSPgl,
+     uTrialAbraa;
 
 type
   TThreadTrial = class(TThread)
@@ -25,7 +29,7 @@ type
     FRegData: TRegData;
     FNextBlc: String;
     FOnEndBlc: TNotifyEvent;
-    FSupport: TWinControl;
+    FBackGround: TWinControl;
     FCfgBlc: TCfgBlc;
     FLastHeader: String;
     FTheadTrial: TThreadTrial;
@@ -46,7 +50,7 @@ type
 
     property RegData: TRegData write FRegData;
     property OnEndBlc: TNotifyEvent read FOnEndBlc write FOnEndBlc;
-    property Support: TWinControl read FSupport write FSupport;
+    property BackGround: TWinControl read FBackGround write FBackGround;
     property NextBlc: String read FNextBlc write FNextBlc;
   end;
 
@@ -68,7 +72,7 @@ begin
       '>': FVetCountOperand1[a1].FlagSatisfied:= FVetCountOperand1[a1].Count > FCfgBlc.VetCrtBlc[a1].Operand2;
       '<': FVetCountOperand1[a1].FlagSatisfied:= FVetCountOperand1[a1].Count < FCfgBlc.VetCrtBlc[a1].Operand2;
     end;
-    b1:= FVetCountOperand1[a1].FlagSatisfied;                         
+    b1:= FVetCountOperand1[a1].FlagSatisfied;
     Inc(a1);
   end;
   Dec(a1);
@@ -89,7 +93,7 @@ procedure TBlc.ThreadTrialTerminate(Sender: TObject);
 var a1: Integer; NumTr, NameTr: String[8];
 begin
   If FTrial.Header <> FLastHeader then
-    FRegData.SaveData(FBlcHeader+FTrial.Header+#13#10);
+    FRegData.SaveData(#13#10+FBlcHeader+FTrial.Header+#13#10);
   FLastHeader:= FTrial.Header;
   FBlcHeader:= #32#32#32#32#32#32#32#32#9#32#32#32#32#32#32#32#32#9;
 
@@ -140,6 +144,7 @@ var a1: Integer;
 begin
   FCfgBlc:= CfgBlc;
   FTestMode:= TestMode;
+  If FBackGround is TForm then TForm(FBackGround).Color:= FCfgBlc.BkGnd;
 
   If FTestMode then FTimerITI.Interval:= 0
   else FTimerITI.Interval:= FCfgBlc.ITI;
@@ -154,7 +159,10 @@ begin
   FIndTrial:= IndTent;
 
   FBlcHeader:= 'Núm.Tent'+#9+'Nom.Tent'+#9;
-  FRegData.SaveData(FCfgBlc.Name+#13#10);
+  FRegData.SaveData(FCfgBlc.Name);
+
+  If FTestMode then FTimerITI.Interval:= 0
+  else FTimerITI.Interval:= FCfgBlc.ITI;
 
   PlayTrial;
 end;
@@ -164,14 +172,21 @@ begin
   If FIndTrial < FCfgBlc.NumTrials then begin
     FTrial:= nil;
 
-    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'MTSSuc' then FTrial:= TMTSSuc.Create(Self);
+    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'Msg' then FTrial:= TMsg.Create(Self);
+
     If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'Nat' then FTrial:= TNat.Create(Self);
-    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'Nat2' then FTrial:= TNat2.Create(Self);    
+    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'NatC' then FTrial:= TNatC.Create(Self);
     If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'Mar' then FTrial:= TMar.Create(Self);
+
+    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'MTS' then FTrial:= TMTS.Create(Self);
+    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'Simpl' then FTrial:= TSimpl.Create(Self);
+    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'MTSPgl' then FTrial:= TMTSPgl.Create(Self);
+    If FCfgBlc.VetCfgTrial[FIndTrial].Kind = 'Abraão' then FTrial:= TAbraao.Create(Self);
+
 
     If Assigned(FTrial) then begin
       Inc(FCountTrial);
-      FTrial.Parent:= FSupport;
+      FTrial.Parent:= FBackGround;
       FTrial.Align:= alClient;
       FTrial.OnEndTrial:= TrialEndTrial;
       FTrial.CfgTrial:= FCfgBlc.VetCfgTrial[FIndTrial];

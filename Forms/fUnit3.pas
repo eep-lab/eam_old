@@ -16,10 +16,7 @@ type
     Edit1: TEdit;
     Edit2: TEdit;
     Edit3: TEdit;
-    BitBtn3: TBitBtn;
     CheckBox1: TCheckBox;
-    procedure FormCreate(Sender: TObject);
-    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,16 +31,5 @@ implementation
 {$R *.dfm}
 
 uses fUnit1;
-
-procedure TForm3.FormCreate(Sender: TObject);
-begin
-  Edit3.Text:= Form1.SaveDialog1.FileName;
-end;
-
-procedure TForm3.BitBtn3Click(Sender: TObject);
-begin
-  If Form1.SaveDialog1.Execute then
-    Edit3.Text:= Form1.SaveDialog1.FileName;
-end;
 
 end.

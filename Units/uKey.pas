@@ -2,13 +2,16 @@ unit uKey;
 
 interface
 
-uses Controls, Graphics, Classes, SysUtils, Jpeg, MPlayer, Forms;
+uses Controls, Graphics, Classes, SysUtils, Jpeg, MPlayer, Forms,
+     uSchMan;
 
 type
   TKind = (stmNone, stmImage, stmSound);
 
-  TChave = class(TGraphicControl)
+  TKey = class(TGraphicControl)
   private
+    FOnResponse: TNotifyEvent;
+    FSchMan: TSchMan;
     FBitMap: TBitMap;
     FBorderColor: TColor;
     FFileName: String;
@@ -17,31 +20,40 @@ type
     FOnEndMedia: TNotifyEvent;
     procedure SetFileName(Path: String);
     procedure MPlayerNotify(Sender: TObject);
+    procedure SchReinforce(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Paint; override;
     procedure Play;
     procedure Stop;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     property BorderColor: TColor read FBorderColor write FBorderColor;
     property FileName: String read FFileName write SetFileName;
     property Kind: TKind read FKind;
     property OnClick;
     property OnMouseDown;
+    property OnResponse: TNotifyEvent read FOnResponse write FOnResponse;
     property OnEndMedia: TNotifyEvent read FOnEndMedia write FOnEndMedia;
+    property SchMan: TSchMan read FSchMan;
   end;
 
 implementation
 
-constructor TChave.Create(AOwner: TComponent);
+constructor TKey.Create(AOwner: TComponent);
 begin
   Inherited Create(AOwner);
   Height:= 45;
   Width:= 60;
   FBitMap:= TBitMap.Create;
+
+  FSchMan:= TSchMan.Create(Self);
+  With FSchMan do begin
+    OnReinforce:= SchReinforce;
+  end;
 end;
 
-destructor TChave.Destroy;
+destructor TKey.Destroy;
 begin
   If Assigned(FMPlayer) then begin
     FMPlayer.Close;
@@ -51,16 +63,16 @@ begin
   Inherited Destroy;
 end;
 
-procedure TChave.Paint;
+procedure TKey.Paint;
 begin
   With Canvas do begin
     StretchDraw(Rect(0, 0, Width, Height), FBitMap);
-//    Brush.Color:= FBorderColor;
+//    Brush.Color:= clRed;//FBorderColor;
 //    FrameRect(Rect(0, 0, Width, Height));
   end;
 end;
 
-procedure TChave.Play;
+procedure TKey.Play;
 begin
   If Assigned(FMPlayer) then begin
     Try
@@ -72,14 +84,20 @@ begin
   end else MPlayerNotify(nil);
 end;
 
-procedure TChave.Stop;
+procedure TKey.Stop;
 begin
   If Assigned(FMPlayer) then
     If FMPlayer.Mode = mpPlaying then
       FMPlayer.Stop;
 end;
 
-procedure TChave.SetFileName(Path: String);
+procedure TKey.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  Inherited MouseDown(Button, Shift, X, Y);
+  FSchMan.DoResponse;
+end;
+
+procedure TKey.SetFileName(Path: String);
 var s1: String; jpg: TJpegImage;
 begin
   FBitMap.Width:= 0;
@@ -112,7 +130,9 @@ begin
         FMPlayer:= TMediaPlayer.Create(Self);
         FMPlayer.FileName:= Path;
         FMPlayer.ParentWindow:= Application.Handle;
-        FMPlayer.Open;
+        Try
+          FMPlayer.Open;
+        Except end;
         FMPlayer.OnNotify:= MPlayerNotify;
         FKind:= stmSound;
         FFileName:= Path;
@@ -121,9 +141,14 @@ begin
   Repaint;
 end;
 
-procedure TChave.MPlayerNotify(Sender: TObject);
+procedure TKey.MPlayerNotify(Sender: TObject);
 begin
   If Assigned(OnEndMedia) then FOnEndMedia(Self);
+end;
+
+procedure TKey.SchReinforce(Sender: TObject);
+begin
+  If Assigned(OnResponse) then FOnResponse(Self);
 end;
 
 end.

@@ -1,6 +1,6 @@
 object FmAbout: TFmAbout
-  Left = 288
-  Top = 175
+  Left = 293
+  Top = 180
   BorderStyle = bsDialog
   ClientHeight = 360
   ClientWidth = 480

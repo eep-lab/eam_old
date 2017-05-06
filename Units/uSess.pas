@@ -6,6 +6,7 @@ uses Classes, Controls, SysUtils,
      uCfgSes, uRegData, uBlc;
 
 type
+
   TSess = class(TComponent)
   private
     FRegData: TRegData;
@@ -16,18 +17,19 @@ type
     FOnEndSess: TNotifyEvent;
     FSubjName: String;
     FSessName: String;
-    FSupport: TWinControl;
+    FBackGround: TWinControl;
     FTestMode: Boolean;
     procedure BlcEndBlc(Sender: TObject);
     procedure EndSess;
-    procedure SetSupport(Support: TWinControl);
+    procedure SetBackGround(BackGround: TWinControl);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure DoEndSess;
     procedure Play(CfgSes: TCfgSes; FileData: String);
     procedure PlayBlc;
     property OnEndSess: TNotifyEvent read FOnEndSess write FOnEndSess;
-    property Support: TWinControl read FSupport write SetSupport;
+    property BackGround: TWinControl read FBackGround write SetBackGround;
     property SessName: String write FSessName;
     property SubjName: String write FSubjName;
     property TestMode: Boolean write FTestMode;
@@ -61,13 +63,13 @@ begin
   FRegData.SaveData('Hora de Término: '+ TimeToStr(Time) + #13#10);
 
   FRegData.Free;
-  
+
   If Assigned(OnEndSess) then FOnEndSess(Self);
 end;
 
-procedure TSess.SetSupport(Support: TWinControl);
+procedure TSess.SetBackGround(BackGround: TWinControl);
 begin
-  FSupport:= Support;
+  FBackGround:= BackGround;
 end;
 
 constructor TSess.Create(AOwner: TComponent);
@@ -85,14 +87,21 @@ begin
   Inherited Destroy;
 end;
 
+procedure TSess.DoEndSess;
+begin
+  FRegData.SaveData(#13#10+'Sessão Cancelada' + #13#10);
+  EndSess;
+end;
+
 procedure TSess.Play(CfgSes: TCfgSes; FileData: String);
 begin
   FCfgSes:= CfgSes;
 
-  FRegData:= TRegData.Create(Self, FileData);
+  If FileData = #0 then FileData:= 'Dados.txt';
+  FRegData:= TRegData.Create(Self, FCfgSes.HootData+FileData);
 
   FBlc.RegData:= FRegData;
-  FBlc.Support:= FSupport;
+  FBlc.BackGround:= FBackGround;
 
   FRegData.SaveData('Sujeito: ' + FSubjName + #13#10);
   If FTestMode then FSessName:= FSessName + ' (Modo de Teste)';

@@ -11,7 +11,7 @@ type
   protected
     FCfgTrial: TCfgTrial;
     FOnEndTrial: TNotifyEvent;
-    FResult: String;
+    FResult: String;                               
     FHeader: String;
     FData: String;
     FNextTrial: String;

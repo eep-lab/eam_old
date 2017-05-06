@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 198
-  Top = 172
+  Left = 211
+  Top = 170
   AutoScroll = False
   ClientHeight = 347
   ClientWidth = 584
@@ -9720,6 +9720,13 @@ object Form1: TForm1
         ParentShowHint = False
         ShowHint = True
       end
+      object ToolButton3: TToolButton
+        Left = 51
+        Top = 0
+        Caption = 'ToolButton3'
+        ImageIndex = 1
+        OnClick = ToolButton3Click
+      end
     end
   end
   object Panel1: TPanel
@@ -9922,13 +9929,6 @@ object Form1: TForm1
   object OpenDialog1: TOpenDialog
     Filter = 'Arquivo de Texto (*.txt)|*.txt'
     Left = 72
-    Top = 280
-  end
-  object SaveDialog1: TSaveDialog
-    DefaultExt = 'txt'
-    FileName = 'Dados.txt'
-    Filter = 'Arquivo de Texto Tabulado (*.txt)|*.txt'
-    Left = 104
     Top = 280
   end
 end

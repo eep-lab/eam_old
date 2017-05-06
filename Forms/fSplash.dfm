@@ -1,6 +1,6 @@
 object FmSplash: TFmSplash
-  Left = 201
-  Top = 174
+  Left = 206
+  Top = 178
   BorderStyle = bsNone
   Caption = 'Splash'
   ClientHeight = 360

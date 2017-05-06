@@ -1,12 +1,12 @@
-unit uTrialNat2;
+unit uTrialNatC;
 
 interface
 
 uses Types, SysUtils, Graphics, Classes, Windows,
      uTrialNat;
 
-type
-TNat2 = class(TNat)
+type                                                 
+TNatC = class(TNat)
 public
   procedure Play(TestMode: Boolean); override;
 end;
@@ -15,7 +15,7 @@ implementation
 
 uses uTrial;
 
-procedure TNat2.Play(TestMode: Boolean);
+procedure TNatC.Play(TestMode: Boolean);
 var Rgn: HRgn;
 begin
   Inherited Play(TestMode);

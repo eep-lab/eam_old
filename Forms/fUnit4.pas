@@ -1,13 +1,17 @@
-unit fUnit2;
+unit fUnit4;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, StdCtrls;
+  Dialogs, ComCtrls;
 
 type
-  TForm2 = class(TForm)
+  TForm4 = class(TForm)
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
   private
     { Private declarations }
   public
@@ -15,11 +19,9 @@ type
   end;
 
 var
-  Form2: TForm2;
+  Form4: TForm4;
 
 implementation
-
-uses fUnit1;
 
 {$R *.dfm}
 

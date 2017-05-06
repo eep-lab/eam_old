@@ -20,7 +20,7 @@ type
   end;
 
   TCfgBlc = Record
-    Kind: String;
+    BkGnd: Integer;
     IDBlc: Integer;
     ITI: Integer;
     Name: String;
@@ -33,6 +33,8 @@ type
 
   TCfgSes = class(TComponent)
   private
+    FHootMedia: String;
+    FHootData: String;
     FIniFile: TIniFile;
     FName: String;
     FNumBlc: Integer;
@@ -46,6 +48,7 @@ type
     property CfgBlc[Ind: Integer]: TCfgBlc read GetCfgBlc;
     property Name: String read FName;
     property NumBlc: Integer read FNumBlc;
+    property HootData: String read FHootData;
   end;
 
 implementation
@@ -74,10 +77,17 @@ begin
       If SectionExists('Main') and ValueExists('Main', 'Name') and ValueExists('Main', 'NumBlc') then begin
         FName:= ReadString('Main', 'Name', '');
         FNumBlc:= ReadInteger('Main', 'NumBlc', 0);
+
+        FHootMedia:= ExtractFilePath(FileName) + ReadString('Main', 'HootMedia', '');
+        If not (FHootMedia[Length(FHootMedia)] = '\') then FHootMedia:= FHootMedia + '\';
+
+        FHootData:= ExtractFilePath(FileName) + ReadString('Main', 'HootData', '');
+        If not (FHootData[Length(FHootData)] = '\') then FHootData:= FHootData + '\';
+
         SetLength(FVetCfgBlc, FNumBlc);
         For a1:= 0 to FNumBlc-1 do begin
           FVetCfgBlc[a1].Name:= ReadString('Blc '+IntToStr(a1+1), 'Name', '');
-          FVetCfgBlc[a1].Kind:= ReadString('Blc '+IntToStr(a1+1), 'Kind', '');
+          FVetCfgBlc[a1].BkGnd:= ReadInteger('Blc '+IntToStr(a1+1), 'BkGnd', 0);
           FVetCfgBlc[a1].ITI:= ReadInteger('Blc '+IntToStr(a1+1), 'ITI', 0);
           FVetCfgBlc[a1].NumTrials:= ReadInteger('Blc '+IntToStr(a1+1), 'NumTrials', 0);
           FVetCfgBlc[a1].IDBlc:= a1;
@@ -99,12 +109,12 @@ begin
 
           SetLength(FVetCfgBlc[a1].VetCfgTrial, FVetCfgBlc[a1].NumTrials);
           For a2:= 0 to FVetCfgBlc[a1].NumTrials-1 do begin
-            FVetCfgBlc[a1].VetCfgTrial[a2].Name:= ReadString('Blc '+IntToStr(a1+1) + ' - T'+IntToStr(a2+1), 'Name', '');          
+            FVetCfgBlc[a1].VetCfgTrial[a2].Name:= ReadString('Blc '+IntToStr(a1+1) + ' - T'+IntToStr(a2+1), 'Name', '');
             FVetCfgBlc[a1].VetCfgTrial[a2].Kind:= ReadString('Blc '+IntToStr(a1+1) + ' - T'+IntToStr(a2+1), 'Kind', '');
 
             FVetCfgBlc[a1].VetCfgTrial[a2].SList:= TStringList.Create; // Dar um jeito de destruir na hora adequada. Quando rodar outra vez esta procedure.
             ReadSectionValues('Blc '+IntToStr(a1+1) + ' - T'+IntToStr(a2+1), FVetCfgBlc[a1].VetCfgTrial[a2].SList);
-            FVetCfgBlc[a1].VetCfgTrial[a2].SList.Add('Hoot='+ExtractFilePath(FileName));
+            FVetCfgBlc[a1].VetCfgTrial[a2].SList.Add('HootMedia='+FHootMedia);
           end;
         end;
         Result:= True;

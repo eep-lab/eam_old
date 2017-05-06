@@ -20,7 +20,9 @@ constructor TRegData.Create(AOwner: TComponent; FileName: String);
 var a1: Integer; s1, s2: String;
 begin
   Inherited Create(AOwner);
-  If FileName = '' then FileName:= 'Dados.txt';
+
+  ForceDirectories(ExtractFilePath(FileName));
+
   a1:= 1;
   s1:= Copy(FileName, 0, Length(FileName)-4);
   s2:= Copy(FileName, Length(FileName)-3, 4);
